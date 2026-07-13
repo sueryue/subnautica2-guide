@@ -1,7 +1,7 @@
 /* ============================================================
    Subnautica 2 Guide — Content Data
    Sourced from the Subnautica 2 community wiki (subnautica2-wiki.net), the ali213 EA survival guide, the official Steam page,
-   and cross-checked against the IGN, GameWith, Polygon, GameSpot, PC Gamer, GameRant and MeinMMO walkthrough hubs, the MapGenie interactive map, and the TheRevPlays YouTube walkthrough (Early Access, 2026).
+   and cross-checked against the IGN, GameWith, Polygon, GameSpot, PC Gamer, GameRant, MeinMMO and Gamersky walkthrough hubs, the MapGenie interactive map, and the TheRevPlays YouTube walkthrough (Early Access, 2026).
    Facts are paraphrased; Subnautica 2 is in Early Access, so
    specifics may still change — items flagged `tbd: true` are
    planned/unconfirmed. Edit this file to contribute.
@@ -147,6 +147,8 @@ window.S2DATA = {
       desc: "A small squid-like predator that hunts as a 'scout' for the much larger Marrowbreach." },
     { id: "hammerhead", name: "Hammerhead", icon: "🔨", tier: "herbivore", hostile: false, biome: "Shallows / Reefs",
       desc: "An armored, schooling herbivore — harmless until you enter its herd space, then it charges." },
+    { id: "coral-crab", name: "Coral Crab", icon: "🦀", tier: "predator", hostile: true, biome: "Chap’s Bunker (SSE of Lifepod)",
+      desc: "A massive crab that dozes beside the Chap colonist bunker. It stays dormant until a passing Hammerhead stirs it, then rouses to defend the site. Give it a wide berth." },
     { id: "reef-grazer", name: "Reef Grazer", icon: "🐟", tier: "herbivore", hostile: false, biome: "Shallow & reef",
       desc: "Representative of the herbivore layer — schooling, non-aggressive fish common in shallow and reef biomes." },
     { id: "hycean", name: "Hycean", icon: "🪼", tier: "gentle", hostile: false, biome: "Surface",
@@ -464,6 +466,10 @@ window.S2DATA = {
       body: "Subnautica 2 ships a debug/console command interface for testing and unsticking saves. It is handy in a pinch, but leaning on it can disable achievements — use it as a last resort." },
     { id: "roadmap", icon: "🗺️", category: "survival", title: "Watch the Early Access roadmap",
       body: "Unknown Worlds publishes an Early Access roadmap of upcoming content drops. Check it to see which biomes, creatures and systems are still on the way so you know what to expect." },
+    { id: "decoy-flare", icon: "🎏", category: "combat", title: "Decoy Flare Stick lures predators",
+      body: "Found during the Lifepod intro, the Decoy Flare Stick is a throwable that draws predators’ attention away from you. Toss one to slip past a guarding creature or buy time to scan." },
+    { id: "noa-talk", icon: "🗣️", category: "survival", title: "Finish the full NOA conversation",
+      body: "Your Noetic Advisor (NOA Terminal) drives every objective. Always read the whole dialogue — if you skip or back out early, the next task step will not update. Check NOA (and press Tab for the log/signals tab) whenever you are stuck." },
     { id: "modes", icon: "🎮", category: "survival", title: "Creative vs Survival",
       body: "Creative mode removes all survival pressure — health, oxygen, food and water never drain, and every blueprint and adaptation is unlocked from the start. Survival keeps the classic loop, with story unfolding gradually through blackbox signals from the NoA Terminal." }
   ],
@@ -624,6 +630,9 @@ window.S2DATA = {
     { id: "oxygen-control", name: "Oxygen Control", icon: "🫁", type: "Biomod",
       effect: "A passive skill that slows oxygen drain while you are idle.",
       how: "Install at the Bio Lab in the Welcome Center." },
+    { id: "pressure", name: "Pressure Adaptation", icon: "⚓", type: "Biomod",
+      effect: "Lets you descend to ~600 m without decompression sickness — your early-depth ceiling before deeper Angel Comb upgrades.",
+      how: "Granted during the Lifepod intro: insert your hand into the Sampling Booth beside the purple creature." },
     { id: "biobed", name: "Biobed Upgrade", icon: "🛏️", type: "Biomod",
       effect: "A permanent upgrade (extra tool slots, inventory space) granted once.",
       how: "Found in hidden Colonist Bunkers — interact with the working Biobed inside." },
@@ -659,7 +668,8 @@ window.S2DATA = {
         { name: "Welcome Center", note: "Northeast ~100 m. Silver hides in the cave below. Insert a Basic Battery to power the NoA + Biolab and earn Biomods; scan the Habitat Builder fragment in the room below." },
         { name: "Coral Gardens", note: "Scan the Wakemaker at the research station; grab the Sonic Resonator at a nearby cave; reach the Angel Comb for the Digestion Adaptation." },
         { name: "Angel Comb", note: "Interact to unlock the Digestion Adaptation (eat alien food safely)." },
-        { name: "Coral Garden Biobeds", note: "Anita's Garden and Salvage expand your inventory and hotbar." }
+        { name: "Coral Garden Biobeds", note: "Anita's Garden and Salvage expand your inventory and hotbar." },
+        { name: "Chap’s Colonist Bunker", note: "~250 m SSE of the Lifepod. A massive Coral Crab dozes outside and rouses if a Hammerhead passes — approach carefully. Inside, the Biobed grants an inventory upgrade; scan the Bioreactor." }
       ],
       objectives: [
         "Unlock the Habitat Builder (scan fragment in the Welcome Center).",
@@ -672,7 +682,7 @@ window.S2DATA = {
       summary: "Push north to the Plateau. Explore Camp One, the Old Habitat and the Leadzone; use Distraction Flares to slip past hostile fauna.",
       pois: [
         { name: "Camp One", note: "North of the Lifepod. Flood the west room (press the button, enter via the lower corridor) for a Black Box + scan." },
-        { name: "Old Habitat", note: "~400 m north of the Lifepod. Logs reveal the colonists' infighting." },
+        { name: "Old Habitat", note: "~400 m north of the Lifepod. Logs and Dr. Wu’s blackbox reveal the colonists headed for the Tadpole Pens; scan the Wakemaker, Sonic Resonator, Bioreactor, Processor and Scanner Station here." },
         { name: "Leadzone", note: "Mine Lead. The Launder Garage (needs a Repair Tool to reopen) yields the Hydroelectric Turbine and Tadpole fragments." }
       ],
       objectives: [
@@ -689,7 +699,8 @@ window.S2DATA = {
         { name: "Blighted Coral", note: "Heal the Angel Comb with the Sonic Resonator to unlock the Heat Tolerance Adaptation." },
         { name: "Nahema's Base", note: "Southwest ~250 m of the Lifepod. Tadpole Fragment + Power Storage." },
         { name: "Cicada Canteen", note: "High Capacity Air Tank, Moonpool and Dive Elevator blueprints." },
-        { name: "Great Jaw Leviathan", note: "South ~100 m of the Hole. Two Portable Oxygen Generator scans hide inside its mouth." }
+        { name: "Great Jaw Leviathan", note: "South ~100 m of the Hole. Two Portable Oxygen Generator scans hide inside its mouth." },
+        { name: "Wander Signal", note: "Follow it to a cavern where Bloom Cankers choke a tendril. Shatter the blue nodules with the Sonic Resonator, then cleanse the corrupted Angel Comb for Heat Tolerance." }
       ],
       objectives: [
         "Unlock Heat Tolerance (heal a blighted Angel Comb).",
@@ -701,7 +712,7 @@ window.S2DATA = {
       title: "5 - Venturing East on the Colonist Trail",
       summary: "With Heat Tolerance, push east. Raid the Tadpole Pens for the Scout Ray Chassis, then cross the Trench in your Tadpole to reach the Alien Ruins.",
       pois: [
-        { name: "Tadpole Pens", note: "Scout Ray Chassis blueprint (needs a Keycard to progress)." },
+        { name: "Tadpole Pens", note: "Scout Ray Chassis blueprint (needs the keycode you recover from the databank treasure-hunt to progress)." },
         { name: "Tailings Village", note: "Thermal Plant scan." },
         { name: "Trench", note: "Drive the Tadpole (Scout Ray Chassis fitted), hug the seabed, and use high ground to dodge the Collector Leviathan - it will not follow you into the Ruins." }
       ],
