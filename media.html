@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=4" />
+  <link rel="stylesheet" href="assets/css/style.css?v=5" />
 </head>
 <body data-page="media">
   <header class="nav">
@@ -62,18 +62,29 @@
   <section class="hero hero-media">
     <canvas id="bubbles"></canvas>
     <div class="container">
-      <span class="hero-badge">🎬 Concept Art &amp; Footage</span>
+      <span class="hero-badge">🎬 Official Trailers &amp; Concept Art</span>
       <h1>Media &amp; <span class="gradient-text">Gallery</span></h1>
-      <p class="lead">Original deep-sea concept visuals and an ambient descent through the biomes of planet Proteus. Click any frame to enlarge.</p>
+      <p class="lead">Official Subnautica 2 videos from Unknown Worlds, an original ambient reel, and a concept-art gallery of planet Proteus. Click any frame to enlarge.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
       <div class="section-head center">
-        <span class="eyebrow">Watch</span>
-        <h2>Gameplay reel</h2>
-        <p class="lead">An AI-generated atmospheric clip — not official footage. Swap in real captures anytime via <code>assets/img/gameplay.mp4</code>.</p>
+        <span class="eyebrow">YouTube</span>
+        <h2>Official videos</h2>
+        <p class="lead">Real footage and developer vlogs from the official Subnautica YouTube channel — trailers, showcases and behind-the-scenes.</p>
+      </div>
+      <div class="video-grid" id="videoGrid"></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Concept reel</span>
+        <h2>Ambient descent</h2>
+        <p class="lead">An AI-generated atmospheric clip — <strong>not</strong> official footage. Swap in real captures anytime via <code>assets/img/gameplay.mp4</code>.</p>
       </div>
       <div class="video-wrap reveal">
         <video id="gameplayVideo" controls preload="metadata" poster="assets/img/twilight-reef.svg">
@@ -89,7 +100,7 @@
       <div class="section-head center">
         <span class="eyebrow">Concept art</span>
         <h2>Biome gallery</h2>
-        <p class="lead">One original composition for each descent layer of Proteus — from sunlit shallows to precursor ruins.</p>
+        <p class="lead">Original illustrations of each descent layer of Proteus — from sunlit shallows to precursor ruins. <em>These are fan-made concept pieces, not official screenshots.</em> Have real captures? Drop them into <code>assets/img/</code> and they can replace these in one edit.</p>
       </div>
       <div class="gallery" id="mediaGrid"></div>
     </div>
