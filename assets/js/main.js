@@ -578,8 +578,8 @@
     else if (page === "base") { setupList({ root: "baseRoot", data: S2DATA.baseModules, tpl: templates.base }); injectItemList(S2DATA.baseModules, "name", "desc"); }
     else if (page === "vehicles") { renderVehicles(); injectItemList(S2DATA.vehicles, "name", "desc"); }
     else if (page === "tips") { setupList({ root: "tipsRoot", data: S2DATA.tips, tpl: templates.tip }); injectItemList(S2DATA.tips, "title", "body"); }
-    else if (page === "resources") { setupList({ root: "resourcesRoot", data: S2DATA.resources, tpl: templates.resource }); injectItemList(S2DATA.resources, "name", "desc"); }
-    else if (page === "adaptations") { setupList({ root: "adaptationsRoot", data: S2DATA.adaptations, tpl: templates.adaptation }); injectItemList(S2DATA.adaptations, "name", "desc"); }
+    else if (page === "resources") { setupList({ root: "resourcesRoot", data: S2DATA.resources, tpl: templates.resource }); injectItemList(S2DATA.resources, "name", "uses"); }
+    else if (page === "adaptations") { setupList({ root: "adaptationsRoot", data: S2DATA.adaptations, tpl: templates.adaptation }); injectItemList(S2DATA.adaptations, "name", "effect"); }
     else if (page === "media") { renderVideos(); renderMedia(); }
     else if (page === "walkthrough") { renderWalkthrough(); injectItemList(S2DATA.walkthrough, "title", "summary"); }
   }
