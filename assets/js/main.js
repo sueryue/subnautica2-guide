@@ -316,6 +316,54 @@
     }).join("");
   }
 
+  /* ---------- Walkthrough & progression ---------- */
+  function renderWalkthrough() {
+    var root = document.getElementById("walkthroughRoot");
+    if (root && S2DATA.walkthrough) {
+      root.innerHTML = S2DATA.walkthrough.map(function (ch, i) {
+        var pois = ch.pois.map(function (p) {
+          return "<li><strong>" + p.name + "</strong><span>" + p.note + "</span></li>";
+        }).join("");
+        var objs = ch.objectives.map(function (o) { return "<li>" + o + "</li>"; }).join("");
+        var unlocks = ch.unlocks.map(function (u) {
+          return '<span class="chip-static">' + u + "</span>";
+        }).join("");
+        return '<article class="wf-chapter reveal" data-phase="' + ch.phase + '">' +
+          '<div class="wf-num">' + (i + 1) + "</div>" +
+          '<div class="wf-body">' +
+            '<div class="wf-tag">' + ch.phase + " · " + ch.gw + "</div>" +
+            "<h3>" + ch.title + "</h3>" +
+            '<p class="desc">' + ch.summary + "</p>" +
+            '<div class="wf-cols">' +
+              '<div><h4>📍 Points of interest</h4><ul class="wf-pois">' + pois + "</ul></div>" +
+              '<div><h4>🎯 Objectives</h4><ul class="wf-objs">' + objs + "</ul></div>" +
+            "</div>" +
+            '<div class="wf-unlocks"><span class="wf-unlock-label">Unlocks</span>' + unlocks + "</div>" +
+          "</div></article>";
+      }).join("");
+    }
+
+    var bu = document.getElementById("biomeUnlockRoot");
+    if (bu && S2DATA.biomeUnlocks) {
+      bu.innerHTML = S2DATA.biomeUnlocks.map(function (b) {
+        return '<div class="wf-phase reveal"><span class="wf-phase-tag">' + b.phase + "</span><p>" + b.biomes + "</p></div>";
+      }).join("");
+    }
+
+    var vp = document.getElementById("vehicleRoot");
+    if (vp && S2DATA.vehicleProgression) {
+      vp.innerHTML = S2DATA.vehicleProgression.map(function (v, i) {
+        return '<div class="wf-veh reveal">' +
+          '<div class="wf-veh-step">Step ' + (i + 1) + "</div>" +
+          "<h4>" + v.step + "</h4>" +
+          '<p class="desc">' + v.from + "</p>" +
+          '<div class="wf-recipe">' + v.recipe + "</div>" +
+          "</div>";
+      }).join("");
+    }
+    initReveal();
+  }
+
   /* ---------- Media gallery + lightbox ---------- */
   function renderMedia() {
     var grid = document.getElementById("mediaGrid");
@@ -387,6 +435,7 @@
     else if (page === "resources") setupList({ root: "resourcesRoot", data: S2DATA.resources, tpl: templates.resource });
     else if (page === "adaptations") setupList({ root: "adaptationsRoot", data: S2DATA.adaptations, tpl: templates.adaptation });
     else if (page === "media") { renderVideos(); renderMedia(); }
+    else if (page === "walkthrough") renderWalkthrough();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
