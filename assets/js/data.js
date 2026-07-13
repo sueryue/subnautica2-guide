@@ -550,5 +550,33 @@ window.S2DATA = {
       caption: "A glass-domed habitat on the ocean floor: piece-by-piece, your home." },
     { type: "video", src: "assets/img/gameplay.mp4", title: "Gameplay Reel", biome: "Planet Proteus",
       caption: "An AI-generated ambient descent through the biomes of planet Proteus." }
+  ],
+  // Real videos from the official Unknown Worlds / Subnautica YouTube channel (@subnautica).
+  // IDs verified against the channel's own videos page. Embed via youtube-nocookie.com.
+  videos: [
+    { id: "6t2nDHldoSk", title: "Early Access Gameplay Trailer", topic: "Gameplay",
+      channel: "Unknown Worlds", views: "5.8M", date: "May 2026",
+      desc: "The first real in-engine look — 4-player co-op, new tools, alien biomes and the Tadpole in motion." },
+    { id: "8EZhCzFaQuw", title: "Early Access Cinematic Trailer", topic: "Story",
+      channel: "Unknown Worlds", views: "11M", date: "Apr 2026",
+      desc: "The CICADA colony ship, a stranded crew of Pioneers, and the terror waiting in the dark." },
+    { id: "cJIHefNB3Hw", title: "Early Access: First Dive Showcase", topic: "Gameplay",
+      channel: "Unknown Worlds", views: "704K", date: "May 2026",
+      desc: "Full pre-launch showcase: gameplay premiere, dev interviews and live demos (~2.5h)." },
+    { id: "etGaDuCDdXQ", title: "Dev Vlog — Building Bases", topic: "Base Building",
+      channel: "Unknown Worlds", views: "867K", date: "Mar 2026",
+      desc: "How modular base-building and the new construction systems came together." },
+    { id: "LYGcagswya4", title: "Dev Vlog — Diving Together (Co-op)", topic: "Co-op",
+      channel: "Unknown Worlds", views: "577K", date: "Feb 2026",
+      desc: "The design behind 4-player online co-op exploration and shared bases." },
+    { id: "38xWO2AqDM8", title: "Dev Vlog — Crafting the Tadpole", topic: "Vehicles",
+      channel: "Unknown Worlds", views: "543K", date: "Dec 2025",
+      desc: "A look at the Tadpole submersible — the new modular exploration vehicle." },
+    { id: "oK5Nr1VtJ9Q", title: "\"Take a Deep Breath\" (Gameplay Reveal Teaser)", topic: "Gameplay",
+      channel: "Unknown Worlds", views: "2.5M", date: "Jul 2025",
+      desc: "The first gameplay-reveal teaser that reintroduced the sequel." },
+    { id: "w1M4b6PneFk", title: "Dev Vlog — Creating the Collector Leviathan", topic: "Creatures",
+      channel: "Unknown Worlds", views: "495K", date: "Oct 2025",
+      desc: "How one of Subnautica 2's new Leviathans was brought to life." }
   ]
 };
