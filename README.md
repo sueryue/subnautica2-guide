@@ -44,3 +44,6 @@ Settings → Pages → Source: `Deploy from a branch` → Branch: `main` → `/ 
 - Equipment & tools deep-dive
 - Seeds & resources index
 - Replace TBD entries with verified Subnautica 2 data on release
+
+## Live
+🌐 https://sueryue.github.io/subnautica2-guide/
