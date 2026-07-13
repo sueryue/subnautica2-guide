@@ -1,6 +1,7 @@
 /* ============================================================
    Subnautica 2 Guide — Content Data
-   Sourced from the Subnautica 2 community wiki (subnautica2-wiki.net), the ali213 EA survival guide, and the official Steam page.
+   Sourced from the Subnautica 2 community wiki (subnautica2-wiki.net), the ali213 EA survival guide, the official Steam page,
+   and cross-checked against the IGN, GameWith, Polygon and GameSpot walkthrough hubs (Early Access, 2026).
    Facts are paraphrased; Subnautica 2 is in Early Access, so
    specifics may still change — items flagged `tbd: true` are
    planned/unconfirmed. Edit this file to contribute.
@@ -123,7 +124,7 @@ window.S2DATA = {
     { id: "shiver", name: "Shiver Leviathan", icon: "🦷", tier: "leviathan", hostile: true, biome: "The Void",
       desc: "A pack-hunting leviathan with bulging bony skull and sharp fins — devastating in open water." },
     { id: "great-jaw", name: "Great Jaw", icon: "🦪", tier: "leviathan", hostile: true, biome: "Crag Canyons",
-      desc: "Nicknamed 'clam-cthulhu' — an ambush leviathan that traps prey in lure-threads, then dissolves them in acid." },
+      desc: "Nicknamed 'clam-cthulhu' — an ambush leviathan that traps prey in lure-threads, then dissolves them in acid. Its gaping maw hides valuable scans: sever a single nerve to pry it open (cutting more snaps it shut)." },
     { id: "deepwing", name: "Deepwing Brooder", icon: "🥚", tier: "leviathan", hostile: true, biome: "Mid-deep waters",
       desc: "A schooling leviathan that swarms down from above and scatters egg-like clusters through the water." },
     { id: "marrowbreach", name: "Marrowbreach", icon: "🦈", tier: "alpha", hostile: true, biome: "Mid waters",
@@ -160,7 +161,7 @@ window.S2DATA = {
   crafting: [
     /* Tools */
     { id: "scanner", name: "Scanner", icon: "📷", station: "Fabricator", category: "Tools",
-      ingredients: [{ name: "Titanium", qty: 2 }, { name: "Quartz", qty: 2 }, { name: "Battery", qty: 1 }],
+      ingredients: [{ name: "Titanium", qty: 2 }, { name: "Quartz", qty: 2 }, { name: "Basic Battery", qty: 1 }],
       desc: "Scans flora, fauna and fragments to unlock blueprints. Yellow pips on its screen mark scannable objects. Build this first." },
     { id: "multitool", name: "Survival Multitool", icon: "🔧", station: "Fabricator", category: "Tools",
       ingredients: [{ name: "Titanium", qty: 3 }],
@@ -172,16 +173,16 @@ window.S2DATA = {
       ingredients: [{ name: "Titanium", qty: 2 }, { name: "Quartz", qty: 1 }, { name: "Battery", qty: 1 }],
       desc: "Lights the abyss — essential in deep, dark biomes." },
     { id: "repair-tool", name: "Repair Tool", icon: "🛠️", station: "Fabricator", category: "Tools",
-      ingredients: [{ name: "Titanium", qty: 1 }, { name: "Battery", qty: 1 }],
+      ingredients: [{ name: "Titanium Ingot", qty: 1 }, { name: "Wiring Kit", qty: 1 }, { name: "Basic Battery", qty: 1 }, { name: "Sulfur", qty: 1 }],
       desc: "Seals breaches in vehicles and bases. Required for Tadpole and base upkeep." },
     { id: "bioscanner", name: "Bioscanner", icon: "🧬", station: "Fabricator", category: "Tools",
-      ingredients: [{ name: "Scanner", qty: 1 }, { name: "Alien Conduit Crystal", qty: 1 }],
+      ingredients: [{ name: "Scanner", qty: 1 }, { name: "Alien Conduit Crystal", qty: 3 }, { name: "Enameled Glass", qty: 2 }],
       desc: "An upgrade of the Scanner. Unlock it by scanning its fragment in a deep wreck (a large room at the end of a dark narrow tube). Scan creatures with it to earn new Biomods." },
     { id: "processor", name: "Processor", icon: "⚙️", station: "Fabricator", category: "Tools",
       ingredients: [{ name: "Titanium", qty: 1 }, { name: "Copper Wire", qty: 1 }, { name: "Mild Acid", qty: 1 }],
       desc: "Refines raw ore into ingots (Titanium, Copper, Silver) and crafts Strong Acid from Necrolei Cysts." },
     { id: "habitat-builder", name: "Habitat Builder", icon: "🏗️", station: "Fabricator", category: "Tools",
-      ingredients: [{ name: "Titanium", qty: 1 }, { name: "Battery", qty: 1 }, { name: "Copper Wire", qty: 1 }],
+      ingredients: [{ name: "Titanium", qty: 2 }, { name: "Glass", qty: 1 }, { name: "Basic Battery", qty: 1 }, { name: "Copper Wire", qty: 1 }],
       desc: "Constructs your base piece-by-piece — corridors, rooms, power and docks. Unlock the blueprint by scanning the Habitat Builder fragment inside the Welcome Center." },
 
     /* Equipment */
@@ -192,10 +193,10 @@ window.S2DATA = {
       ingredients: [{ name: "Standard Air Tank", qty: 1 }, { name: "Plasteel Ingot", qty: 1 }],
       desc: "Adds +75 oxygen (→ 120). Built from a Standard Tank plus a Plasteel Ingot." },
     { id: "rebreather", name: "Rebreather", icon: "😷", station: "Fabricator", category: "Equipment",
-      ingredients: [{ name: "Titanium", qty: 1 }, { name: "Glass", qty: 1 }, { name: "Coral Tube Sample", qty: 1 }],
+      ingredients: [{ name: "Fiber Mesh", qty: 2 }, { name: "System Chip", qty: 1 }],
       desc: "Conserves oxygen the deeper you dive — pairs perfectly with an air tank." },
     { id: "fins", name: "Basic Fins", icon: "🦶", station: "Fabricator", category: "Equipment",
-      ingredients: [{ name: "Rubber", qty: 2 }, { name: "Fiber", qty: 2 }],
+      ingredients: [{ name: "Rubber", qty: 2 }, { name: "Fiber Mesh", qty: 2 }],
       desc: "Slightly increases swim speed. Cheap and worth it." },
     { id: "air-bladder", name: "Air Bladder", icon: "🎈", station: "Fabricator", category: "Equipment",
       ingredients: [{ name: "Titanium", qty: 2 }, { name: "Rubber", qty: 1 }],
@@ -215,7 +216,7 @@ window.S2DATA = {
       ingredients: [{ name: "Battery", qty: 1 }, { name: "Salt", qty: 1 }, { name: "Strong Acid", qty: 1 }],
       desc: "High-capacity energy for the Tadpole core and its docks." },
     { id: "first-aid", name: "First Aid Kit", icon: "➕", station: "Fabricator", category: "Consumables",
-      ingredients: [{ name: "Fiber", qty: 1 }, { name: "Medical Gel Sac", qty: 1 }],
+      ingredients: [{ name: "Fiber Mesh", qty: 1 }, { name: "Medical Gel Sac", qty: 1 }],
       desc: "Restores +50 HP. Craft the Reinforced kit (Fiber + Medical Gel Bandage) for +100 HP. The Medical Gel Sac comes from the Acid Raion plant — slice the outer acid sacs first to avoid the poison." },
     { id: "water", name: "Filtered Water", icon: "💧", station: "Fabricator", category: "Consumables",
       ingredients: [{ name: "Water Slug", qty: 1 }],
@@ -249,8 +250,34 @@ window.S2DATA = {
       ingredients: [{ name: "Titanium Ingot", qty: 2 }, { name: "Copper Ingot", qty: 1 }, { name: "Glass", qty: 2 }],
       desc: "Builds the Tadpole core module. Place it beside a Moonpool." },
     { id: "tadpole-core", name: "Tadpole Core Module", icon: "🐸", station: "Vehicle Fabricator", category: "Vehicle Parts",
-      ingredients: [{ name: "Titanium Ingot", qty: 2 }, { name: "Glass", qty: 1 }, { name: "System Chip", qty: 1 }, { name: "Power Cell", qty: 1 }],
-      desc: "The Tadpole's core chassis. Needs 3 scanned Tadpole Fragments to unlock the blueprint first." }
+      ingredients: [{ name: "Titanium", qty: 2 }, { name: "Glass", qty: 1 }, { name: "System Chip", qty: 1 }, { name: "Power Cell", qty: 1 }],
+      desc: "The Tadpole's core chassis. Needs 3 scanned Tadpole Fragments to unlock the blueprint first." },
+
+    /* --- Added from the IGN walkthrough (verified Early Access recipes) --- */
+    { id: "wakemaker", name: "Wakemaker", icon: "🌀", station: "Fabricator", category: "Tools",
+      ingredients: [{ name: "Silver", qty: 1 }, { name: "Wiring Kit", qty: 1 }, { name: "Grease", qty: 1 }, { name: "Basic Battery", qty: 1 }],
+      desc: "A self-lit mobility tool that also boosts swim speed — swap it in for the basic Flashlight the moment it unlocks." },
+    { id: "portable-o2", name: "Portable Oxygen Generator", icon: "🫁", station: "Habitat Builder", category: "Equipment",
+      ingredients: [{ name: "Titanium", qty: 3 }, { name: "Lithium", qty: 2 }],
+      desc: "A deployable air source. Two scans hide inside the Great Jaw Leviathan's mouth — sever ONE nerve to pry it open." },
+    { id: "feedback-resonator", name: "Feedback Resonator", icon: "📡", station: "Fabricator", category: "Tools",
+      ingredients: [{ name: "Sonic Resonator", qty: 1 }, { name: "Enameled Glass", qty: 2 }, { name: "Alien Conduit Crystal", qty: 2 }, { name: "Strontium", qty: 2 }],
+      desc: "The upgraded Sonic Resonator — clears corrupted Bloom pustules and tougher mineral deposits." },
+    { id: "improved-fins", name: "Improved Fins", icon: "🦶", station: "Fabricator", category: "Equipment",
+      ingredients: [{ name: "Basic Fins", qty: 1 }, { name: "Fiber Mesh", qty: 1 }, { name: "Alien Conduit Crystal", qty: 2 }],
+      desc: "An upgrade of the Basic Fins for faster, more efficient swimming. Blueprint from the Needler Nest." },
+    { id: "engine-eff", name: "Engine Efficiency Module", icon: "⚙️", station: "Modification Station", category: "Equipment",
+      ingredients: [{ name: "Titanium Ingot", qty: 1 }, { name: "Glass", qty: 2 }, { name: "System Chip", qty: 1 }],
+      desc: "A Tadpole upgrade built at the Modification Station. Adds +20% speed (stacks up to ×4 for +80% total). Blueprint from the Research Lab." },
+    { id: "depth-mk1", name: "Depth Module MK1", icon: "🛡️", station: "Modification Station", category: "Equipment",
+      ingredients: [{ name: "Celestine", qty: 3 }, { name: "Enameled Glass", qty: 2 }, { name: "System Chip", qty: 1 }],
+      desc: "Raises the Tadpole's crush depth from 250 m to 450 m. Built at the Modification Station." },
+    { id: "scout-ray", name: "Scout Ray Chassis", icon: "🐟", station: "Vehicle Fabricator", category: "Vehicle Parts",
+      ingredients: [{ name: "Plasteel Ingot", qty: 2 }, { name: "Advanced Wiring Kit", qty: 1 }, { name: "Dedicated Core", qty: 1 }, { name: "Strong Acid", qty: 1 }],
+      desc: "A Tadpole chassis built at the Vehicle Fabricator that raises top speed. Blueprint from the Tadpole Pens (needs a Keycard)." },
+    { id: "haul-chassis", name: "Tadpole Haul Chassis", icon: "📦", station: "Vehicle Fabricator", category: "Vehicle Parts",
+      ingredients: [],
+      desc: "Adds built-in storage and a passenger seat to the Tadpole. Blueprint from the Needler Nest." }
   ],
 
   /* ---------------- VEHICLES ---------------- */
@@ -322,7 +349,7 @@ window.S2DATA = {
     { id: "current", icon: "🌊", category: "building", title: "Build next to a current",
       body: "Solar panels only work in daylight. Drop a Hydroelectric Turbine inside a jetstream tube and link it to your base with Power Transmitters — far easier than chaining transmitters across the map." },
     { id: "tadpole", icon: "🐸", category: "vehicles", title: "Unlock the Tadpole",
-      body: "Scan 3 Tadpole Fragments to learn the blueprint, then build a Moonpool (5 Titanium), Tadpole Dock and Vehicle Fabricator. The core needs Titanium & Copper Ingots, Glass, a System Chip and a Power Cell." },
+      body: "Scan 3 Tadpole Fragments to learn the blueprint, then build a Moonpool (5 Titanium), Tadpole Dock and Vehicle Fabricator. The core needs 2 Titanium, Glass, a System Chip and a Power Cell." },
     { id: "tadpole-storage", icon: "📦", category: "vehicles", title: "Strap storage to the Tadpole",
       body: "The Tadpole has no built-in inventory, but the two small circles on its rear accept attachments — clip on up to two Portable Lockers for +15 slots each." },
     { id: "tadpole-up", icon: "🔧", category: "vehicles", title: "Upgrade via the roof slot",
@@ -360,7 +387,7 @@ window.S2DATA = {
     { id: "power-storage", icon: "🔋", category: "building", title: "Grab Power Storage from bunkers",
       body: "Colonist bunkers that contain a Biobed often hide a scannable Power Storage unit on the wall — an unassuming box that looks like greebling. Scan it for your first backup power cache." },
     { id: "bioscanner", icon: "🧬", category: "survival", title: "Bioscanner earns Biomods from creatures",
-      body: "Upgrade your Scanner into a Bioscanner (scan its wreck fragment, then craft with an Alien Conduit Crystal) and scan fauna directly — that is how you unlock new Biomods, not just databank entries." },
+      body: "Upgrade your Scanner into a Bioscanner (scan its wreck fragment, then craft with 3 Alien Conduit Crystals + 2 Enameled Glass) and scan fauna directly — that is how you unlock new Biomods, not just databank entries." },
     { id: "look-north", icon: "🧭", category: "exploration", title: "Almost everything is north",
       body: "Workstations, the Angel Comb (eat native food), and Camp One are all directly north of the Lifepod. Make north your default heading for the first hour." },
 
@@ -386,7 +413,7 @@ window.S2DATA = {
     { id: "coop-revive", icon: "💤", category: "survival", title: "Die? You respawn at the Biobed",
       body: "Death drops you at the base Biobed (your respawn point). The Biobed Upgrade is a permanent, squad-wide boost — build one early so the whole crew benefits." },
     { id: "rebreather", icon: "😷", category: "survival", title: "Pair the Rebreather with your tanks",
-      body: "The Rebreather (Titanium + Glass + Coral Tube Sample) conserves oxygen the deeper you go — stack it with the Standard and High Capacity Air Tanks to push well past 120 O2 on long, deep descents." },
+      body: "The Rebreather (2 Fiber Mesh + 1 System Chip) conserves oxygen the deeper you go — stack it with the Standard and High Capacity Air Tanks to push well past 120 O2 on long, deep descents." },
 
     /* Mid/late-game progression (from Ludens EA walkthrough + Steam Community + ali213) */
     { id: "heat-gate", icon: "🔥", category: "survival", title: "Heat Resistance is your depth gate",
@@ -399,6 +426,17 @@ window.S2DATA = {
       body: "Once you outgrow the Lifepod, Red Grass Mesa is the ideal expansion — a dense, current-swept biome that feeds Hydro Power while staying sheltered. A forward base there shortens every deep run." },
     { id: "scan-gates", icon: "📡", category: "exploration", title: "Blueprints are scan-gated",
       body: "Most recipes are not in your menu until you scan the object — scannable targets glow as yellow pips on the Scanner screen. Scan aggressively: every new wreck, creature and plant can unlock something." },
+    /* --- Added from the IGN / GameWith walkthroughs --- */
+    { id: "trench-cross", icon: "🌑", category: "vehicles", title: "Cross the Trench carefully",
+      body: "In your Tadpole with the Scout Ray Chassis fitted, hug the seabed and use high ground to break line-of-sight with the Collector Leviathan. It patrols the Trench but will not follow you into the Alien Ruins." },
+    { id: "triolite-farm", icon: "🟡", category: "building", title: "Triolite is finite, build Metal Farms",
+      body: "Triolite does not respawn. Once you reach the Alien Ruins, build Metal Farms (east ~800 m + north ~200 m of the Ruins) to produce it passively while you explore elsewhere." },
+    { id: "great-jaw", icon: "🦪", category: "combat", title: "The Great Jaw mouth is a vault",
+      body: "To reach the Portable Oxygen Generator scans inside the Great Jaw Leviathan, sever ONE nerve to pry its maw open. Cutting several will snap it shut and trap you. The second generator hides under uvula metal debris." },
+    { id: "ruins-base", icon: "🏛️", category: "building", title: "Base at the Observatory",
+      body: "Build your endgame base near the Alien Observatory in the Ruins so you do not have to cross the Trench repeatedly for every upgrade run." },
+    { id: "collector", icon: "🐙", category: "combat", title: "Beware the Collector Leviathan",
+      body: "The Collector Leviathan guards the Trench east of the Graveyards and pursues across biome boundaries. Run for your base and seal the compartments, it cannot breach them." },
     { id: "modes", icon: "🎮", category: "survival", title: "Creative vs Survival",
       body: "Creative mode removes all survival pressure — health, oxygen, food and water never drain, and every blueprint and adaptation is unlocked from the start. Survival keeps the classic loop, with story unfolding gradually through blackbox signals from the NoA Terminal." }
   ],
@@ -434,15 +472,15 @@ window.S2DATA = {
       locations: "Deeper caves north of the Lifepod, often surrounded by glowing blue-green flowers; also near Camp One. Small 1 / medium 3 / large 5." },
     { id: "lead", name: "Lead", icon: "🟤", rarity: 3, group: "mineral",
       uses: "Sonic Resonator and vehicle docks.",
-      locations: "Mid-depth rock formations; near Camp One. Larger nodes need the Sonic Resonator." },
+      locations: "Mid-depth rock formations; the Leadzone north of the Lifepod and near Camp One. Larger nodes need the Sonic Resonator." },
     { id: "sulfur", name: "Sulfur", icon: "🟡", rarity: 3, group: "mineral",
       uses: "Strong Acid and heat-resistant chips.",
       locations: "Volcanic / hydrothermal zones (e.g. Sulfur Pyres, Thermal Vents). Bring Heat Resistance." },
     { id: "celestine", name: "Celestine", icon: "💠", rarity: 0, group: "mineral",
       uses: "Modification Station only — gates late-game upgrades.",
       locations: "Found only hours into the game in deeper biomes. Not available early." },
-    { id: "fiber", name: "Fiber", icon: "🌾", rarity: 4, group: "biological",
-      uses: "Fins, food and water crafting.",
+    { id: "fiber", name: "Fiber Mesh", icon: "🌾", rarity: 4, group: "biological",
+      uses: "Fins, food and water crafting, and advanced gear (e.g. Rebreather, Improved Fins).",
       locations: "Harvest feather kelp and cradle-root plants with the Multitool." },
     { id: "rubber", name: "Rubber (Sea Stars)", icon: "🪸", rarity: 3, group: "biological",
       uses: "Fins, air tanks and the Air Bladder.",
@@ -499,7 +537,42 @@ window.S2DATA = {
       locations: "Salvage from wrecks, or fabricate once the blueprint is unlocked." },
     { id: "basic-battery", name: "Basic Battery", icon: "🔋", rarity: 4, group: "refined",
       uses: "Powers tools; swappable with R and rechargeable at a Battery Terminal.",
-      locations: "Craft from Copper + Acidic Raion Pouch at the Fabricator." }
+      locations: "Craft from Copper + Acidic Raion Pouch at the Fabricator." },
+
+    /* --- Added from the IGN / GameWith / Polygon / GameSpot hubs --- */
+    { id: "gold", name: "Gold", icon: "🥇", rarity: 2, group: "mineral",
+      uses: "High-value ore for advanced electronics.",
+      locations: "High-temperature zones (e.g. Sulfur Pyres, Thermal Vents). Bring Heat Resistance." },
+    { id: "lithium", name: "Lithium", icon: "🧊", rarity: 2, group: "mineral",
+      uses: "A mineral needed for advanced crafting (e.g. the Portable Oxygen Generator).",
+      locations: "Dangerous deep biomes and wrecks (e.g. Crag Canyons). High risk to harvest." },
+    { id: "enameled-glass", name: "Enameled Glass", icon: "🔷", rarity: 1, group: "refined",
+      uses: "Reinforced glass for advanced builds (Bioscanner, Feedback Resonator, Depth Module).",
+      locations: "Crafted from Creature Enamel at the Fabricator." },
+    { id: "grease", name: "Grease", icon: "🛢️", rarity: 3, group: "biological",
+      uses: "Lubricant for the Wakemaker.",
+      locations: "Harvested from fauna / organic nodes." },
+    { id: "strontium", name: "Strontium", icon: "🟣", rarity: 2, group: "mineral",
+      uses: "Component of the Feedback Resonator.",
+      locations: "Deep alien structures and wrecks." },
+    { id: "adv-wiring", name: "Advanced Wiring Kit", icon: "🔌", rarity: 2, group: "refined",
+      uses: "Harness for the Scout Ray Chassis.",
+      locations: "Assemble from a Wiring Kit + components at the Fabricator." },
+    { id: "dedicated-core", name: "Dedicated Core", icon: "💠", rarity: 1, group: "refined",
+      uses: "Logic core for the Scout Ray Chassis.",
+      locations: "Salvaged from deep wrecks / alien tech." },
+    { id: "triolite", name: "Triolite", icon: "🔶", rarity: 1, group: "mineral",
+      uses: "Critical, finite ore — only renewable via Metal Farms.",
+      locations: "Metal Farms in the Alien Ruins (east ~800 m + north ~200 m of the Ruins). Does not respawn; rely on Metal Farms." },
+    { id: "creature-enamel", name: "Creature Enamel", icon: "🦷", rarity: 2, group: "biological",
+      uses: "Refined into Enameled Glass.",
+      locations: "Harvested from certain creatures." },
+    { id: "axum-culture", name: "Axum Bacterial Cultures", icon: "🦠", rarity: 2, group: "biological",
+      uses: "Used in Alien Ruins bio / tech crafting.",
+      locations: "Found in the Alien Ruins (Karakorum)." },
+    { id: "troilite", name: "Troilite", icon: "🟤", rarity: 2, group: "mineral",
+      uses: "An ore used in deep crafting.",
+      locations: "Deep biomes and wrecks." }
   ],
 
   /* ---------------- ADAPTATIONS & BIOMODS ---------------- */
@@ -531,6 +604,119 @@ window.S2DATA = {
     { id: "sea-skimmer", name: "Sea Skimmer", icon: "🌊", type: "Biomod",
       effect: "A passive skill that increases swim speed while you are close to the seabed — a big boost to ground-level exploration and gathering.",
       how: "Install at the Bio Lab in the Welcome Center." }
+  ],
+
+  /* ---------------- WALKTHROUGH & PROGRESSION (IGN + GameWith, EA 2026) ---------------- */
+  walkthrough: [
+    { phase: "Early Game", gw: "Build your kit and read the shallows",
+      title: "1 - Getting Started",
+      summary: "Survive the crash. Use the Fabricator in your Lifepod to craft the Survival Multitool and Scanner, then learn the loop: scan, gather, craft, breathe.",
+      pois: [
+        { name: "Lifepod", note: "Your anchor - holds the Fabricator, NoA Terminal, a Biobed (respawn) and the Pod Locker (35 slots)." }
+      ],
+      objectives: [
+        "Craft the Survival Multitool (3 Titanium) and Scanner (2 Titanium, 2 Quartz, 1 Basic Battery) first.",
+        "Learn the four vitals: 100 health, 100 food, 100 water, 45 oxygen.",
+        "Scan everything with a yellow pip - most blueprints unlock by scanning."
+      ],
+      unlocks: ["Scanner", "Survival Multitool", "Basic survival loop"] },
+    { phase: "Early Game", gw: "Find the missing colonists",
+      title: "2 - Searching for Missing Colonists",
+      summary: "Head to the Coral Garden biome. Power the Welcome Center, grab the Habitat Builder blueprint, meet your first Angel Comb, and open the route north to Camp One.",
+      pois: [
+        { name: "Welcome Center", note: "Northeast ~100 m. Silver hides in the cave below. Insert a Basic Battery to power the NoA + Biolab and earn Biomods; scan the Habitat Builder fragment in the room below." },
+        { name: "Coral Gardens", note: "Scan the Wakemaker at the research station; grab the Sonic Resonator at a nearby cave; reach the Angel Comb for the Digestion Adaptation." },
+        { name: "Angel Comb", note: "Interact to unlock the Digestion Adaptation (eat alien food safely)." },
+        { name: "Coral Garden Biobeds", note: "Anita's Garden and Salvage expand your inventory and hotbar." }
+      ],
+      objectives: [
+        "Unlock the Habitat Builder (scan fragment in the Welcome Center).",
+        "Get the Digestion Adaptation from an Angel Comb.",
+        "Collect early Black Boxes (e.g. Singh) on the way north."
+      ],
+      unlocks: ["Habitat Builder", "Digestion Adaptation", "Wakemaker", "Sonic Resonator", "Biomods"] },
+    { phase: "Mid Game", gw: "Reach the old colony and clear the Blight",
+      title: "3 - A Colony Divided",
+      summary: "Push north to the Plateau. Explore Camp One, the Old Habitat and the Leadzone; use Distraction Flares to slip past hostile fauna.",
+      pois: [
+        { name: "Camp One", note: "North of the Lifepod. Flood the west room (press the button, enter via the lower corridor) for a Black Box + scan." },
+        { name: "Old Habitat", note: "~400 m north of the Lifepod. Logs reveal the colonists' infighting." },
+        { name: "Leadzone", note: "Mine Lead. The Launder Garage (needs a Repair Tool to reopen) yields the Hydroelectric Turbine and Tadpole fragments." }
+      ],
+      objectives: [
+        "Craft a Repair Tool to reopen the Launder Garage.",
+        "Mine Lead and gather Tadpole fragments.",
+        "Find Plateau Biobeds (e.g. Sophie's Retreat) for upgrades."
+      ],
+      unlocks: ["Repair Tool", "Hydroelectric Turbine", "Tadpole fragments", "Lead"] },
+    { phase: "Mid Game", gw: "Break the Bloom and build the Tadpole",
+      title: "4 - Clearing the Blight",
+      summary: "Use the Sonic Resonator to shatter Bloom Biofilm. Heal a blighted Angel Comb for Heat Tolerance, then assemble your Tadpole.",
+      pois: [
+        { name: "Cicada Wreckage", note: "Yields the Rebreather, Repair Tool and Titanium Ingot." },
+        { name: "Blighted Coral", note: "Heal the Angel Comb with the Sonic Resonator to unlock the Heat Tolerance Adaptation." },
+        { name: "Nahema's Base", note: "Southwest ~250 m of the Lifepod. Tadpole Fragment + Power Storage." },
+        { name: "Cicada Canteen", note: "High Capacity Air Tank, Moonpool and Dive Elevator blueprints." },
+        { name: "Great Jaw Leviathan", note: "South ~100 m of the Hole. Two Portable Oxygen Generator scans hide inside its mouth." }
+      ],
+      objectives: [
+        "Unlock Heat Tolerance (heal a blighted Angel Comb).",
+        "Build a Moonpool + Vehicle Fabricator and assemble the Tadpole.",
+        "Grab the High Capacity Air Tank and Dive Elevator."
+      ],
+      unlocks: ["Heat Tolerance Adaptation", "Tadpole", "Moonpool", "High Capacity Air Tank", "Dive Elevator"] },
+    { phase: "Late Game", gw: "Cross the Trench into the ruins",
+      title: "5 - Venturing East on the Colonist Trail",
+      summary: "With Heat Tolerance, push east. Raid the Tadpole Pens for the Scout Ray Chassis, then cross the Trench in your Tadpole to reach the Alien Ruins.",
+      pois: [
+        { name: "Tadpole Pens", note: "Scout Ray Chassis blueprint (needs a Keycard to progress)." },
+        { name: "Tailings Village", note: "Thermal Plant scan." },
+        { name: "Trench", note: "Drive the Tadpole (Scout Ray Chassis fitted), hug the seabed, and use high ground to dodge the Collector Leviathan - it will not follow you into the Ruins." }
+      ],
+      objectives: [
+        "Fit the Scout Ray Chassis to your Tadpole.",
+        "Cross the Trench without aggroing the Collector Leviathan.",
+        "Find Graveyard Biobeds (Nahema's Lab, Cicada Wreck)."
+      ],
+      unlocks: ["Scout Ray Chassis", "Thermal Plant", "Alien Ruins access"] },
+    { phase: "Endgame", gw: "Settle the Alien Ruins (Karakorum)",
+      title: "6 - Settling in the Alien Ruins",
+      summary: "The current end of Early Access. Set a respawn at the Research Lab, upgrade your Tadpole, and restore Axum power to open the Alien Observatory.",
+      pois: [
+        { name: "Research Lab", note: "Set your respawn; holds the Modification Table and Engine Efficiency blueprint." },
+        { name: "Needler Nest", note: "Improved Fins, Tadpole Haul Chassis and the Depth Module MK1 (dive to 450 m)." },
+        { name: "Metal Farms", note: "East ~800 m + north ~200 m of the Ruins. The only renewable source of finite Triolite." },
+        { name: "Power Plant", note: "Heal the Angel Comb with a Feedback Resonator; repair the turbine with a Bioscanner." },
+        { name: "Alien Observatory", note: "Power it to open the inner sanctum - the current story endpoint." }
+      ],
+      objectives: [
+        "Upgrade the Tadpole (Depth MK1 to 450 m, Haul Chassis, Engine Efficiency).",
+        "Restore Axum power and open the Observatory.",
+        "Collect all Biomods and prep for the next update."
+      ],
+      unlocks: ["Depth Module MK1", "Improved Fins", "Tadpole Haul Chassis", "Alien Observatory"] }
+  ],
+
+  /* Biome unlock order (IGN) */
+  biomeUnlocks: [
+    { phase: "Early", biomes: "Shallows - Coral Gardens - Welcome Center - Angel Comb" },
+    { phase: "Mid", biomes: "BFJ Plateaus - Anemone Hills - Leadzone - Camp One - Old Habitat - Blighted Coral - Tufa Towers - Nahema's Base" },
+    { phase: "Late (heat)", biomes: "Graveyard - Trench - South Raceway - Tailings Village - Tadpole Pens - Hydrothermal Vents" },
+    { phase: "Endgame", biomes: "Karakorum - Observatory - Power Plant - Root Canyon - Metal Farms" }
+  ],
+
+  /* Vehicle progression (IGN) */
+  vehicleProgression: [
+    { step: "Tadpole", from: "Leadzone / Cicada / Nahema fragments to the Vehicle Fabricator",
+      recipe: "2x Titanium - 1x Glass - 1x System Chip - 1x Power Cell" },
+    { step: "Scout Ray Chassis", from: "Tadpole Pens blueprint",
+      recipe: "2x Plasteel Ingot - 1x Advanced Wiring Kit - 1x Dedicated Core - 1x Strong Acid" },
+    { step: "Tadpole Haul Chassis", from: "Needler Nest blueprint",
+      recipe: "Blueprint from Needler Nest (cargo + passenger seat)" },
+    { step: "Engine Efficiency Module", from: "Research Lab (Modification Table)",
+      recipe: "1x Titanium Ingot - 2x Glass - 1x System Chip" },
+    { step: "Depth Module MK1", from: "Modification Table",
+      recipe: "3x Celestine - 2x Enameled Glass - 1x System Chip to 450 m (from 250 m)" }
   ],
 
   /* ---------------- MEDIA (concept art + footage) ---------------- */
