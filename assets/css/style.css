@@ -275,6 +275,16 @@ h3 { font-size: 1.25rem; }
 .item-card .meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: auto; }
 .item-card p.desc { color: var(--text-dim); font-size: 0.9rem; }
 
+/* Real in-game item icons (replace emoji placeholders in the item grids) */
+.game-icon {
+  width: 76px; height: 76px; object-fit: contain;
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, .45));
+  transition: transform .35s cubic-bezier(.16, 1, .3, 1);
+  pointer-events: none;
+}
+.item-card:hover .game-icon { transform: scale(1.07) translateY(-2px); }
+.card > .thumb .game-icon { width: 104px; height: 104px; }
+
 /* Vehicles board: the depth caption (th-name) must stay small and anchored
    inside the thumb. Without this it inherits the 3.4rem icon font-size. */
 .card > .thumb { position: relative; overflow: hidden; display: grid; place-items: center; }

@@ -288,10 +288,17 @@
     injectJsonLd({ "@context": "https://schema.org", "@type": "ItemList", "itemListElement": list });
   }
 
+  // Render a real in-game icon when one exists for this item id, else fall back to the emoji.
+  function iconHtml(item) {
+    var p = (window.S2ICONS && item && item.id && window.S2ICONS[item.id]) || "";
+    if (p) return '<img class="game-icon" src="' + p + '" alt="' + (item.name || item.title || "") + '" loading="lazy">';
+    return item ? item.icon : "";
+  }
+
   var templates = {
     biome: function (b) {
       return '<article class="card item-card reveal">' +
-        '<div class="thumb">' + b.icon + '<span class="th-name">' + b.depth + "</span></div>" +
+        '<div class="thumb">' + iconHtml(b) + '<span class="th-name">' + b.depth + "</span></div>" +
         badge(b.danger, dangerLabel(b.danger)) +
         "<h3>" + b.name + "</h3>" +
         '<p class="desc">' + b.desc + "</p>" +
@@ -306,7 +313,7 @@
       var m = tierMeta(c.tier);
       var beh = c.hostile ? badge("danger", "Hostile") : badge("safe", "Passive");
       return '<article class="card item-card reveal">' +
-        '<div class="thumb">' + c.icon + "</div>" +
+        '<div class="thumb">' + iconHtml(c) + "</div>" +
         badge(m.cls, m.label) + beh +
         "<h3>" + c.name + "</h3>" +
         '<p class="desc">' + c.desc + "</p>" +
@@ -319,7 +326,7 @@
         return '<span class="ing">' + i.name + (i.qty > 1 ? " ×" + i.qty : "") + "</span>";
       }).join("");
       return '<article class="card item-card reveal">' +
-        '<div class="thumb">' + r.icon + "</div>" +
+        '<div class="thumb">' + iconHtml(r) + "</div>" +
         badge("info", r.station) +
         "<h3>" + r.name + "</h3>" +
         '<p class="desc">' + r.desc + "</p>" +
@@ -331,7 +338,7 @@
     },
     base: function (m) {
       return '<article class="card item-card reveal">' +
-        '<div class="thumb">' + m.icon + "</div>" +
+        '<div class="thumb">' + iconHtml(m) + "</div>" +
         badge("info", m.category) +
         "<h3>" + m.name + "</h3>" +
         '<p class="desc">' + m.desc + "</p>" +
@@ -340,7 +347,7 @@
     tip: function (t) {
       var cat = { survival: "Survival", building: "Base & Gear", exploration: "Exploration", combat: "Threats", vehicles: "Vehicles" }[t.category] || t.category;
       return '<article class="card item-card reveal">' +
-        '<div class="thumb">' + t.icon + '<span class="th-name">' + cat + "</span></div>" +
+        '<div class="thumb">' + iconHtml(t) + '<span class="th-name">' + cat + "</span></div>" +
         "<h3>" + t.title + "</h3>" +
         '<p class="desc">' + t.body + "</p></article>";
     },
@@ -351,7 +358,7 @@
         ? '<div class="rarity">' + stars + "</div>"
         : '<div class="rarity">' + badge("caution", "Gated / late") + "</div>";
       return '<article class="card item-card reveal">' +
-        '<div class="thumb">' + r.icon + '<span class="th-name">' + g + "</span></div>" +
+        '<div class="thumb">' + iconHtml(r) + '<span class="th-name">' + g + "</span></div>" +
         rare +
         "<h3>" + r.name + "</h3>" +
         '<p class="desc">' + r.uses + "</p>" +
@@ -360,7 +367,7 @@
     adaptation: function (a) {
       var typeBadge = a.type === "DNA" ? badge("leviathan", "DNA Adaptation") : badge("info", "Biomod");
       return '<article class="card item-card reveal">' +
-        '<div class="thumb">' + a.icon + "</div>" +
+        '<div class="thumb">' + iconHtml(a) + "</div>" +
         typeBadge +
         "<h3>" + a.name + "</h3>" +
         '<p class="desc">' + a.effect + "</p>" +
@@ -426,13 +433,13 @@
         : '<span class="badge safe">Available</span>';
       var mods = v.modules.length
         ? v.modules.map(function (m) {
-            return '<div class="card" style="padding:1rem"><div style="font-size:1.5rem">' + m.icon +
+            return '<div class="card" style="padding:1rem"><div style="font-size:1.5rem">' + iconHtml(m) +
               '</div><h4 style="margin:.4rem 0 .2rem;font-size:.98rem">' + m.name + "</h4>" +
               '<p class="desc" style="font-size:.85rem">' + m.desc + "</p></div>";
           }).join("")
         : '<p class="desc">Modules: TBD (confirmed for a post-launch update).</p>';
       return '<article class="card reveal" style="padding:0;overflow:hidden">' +
-        '<div class="thumb" style="height:160px;border-radius:0;font-size:3.4rem">' + v.icon +
+        '<div class="thumb" style="height:160px;border-radius:0;font-size:3.4rem">' + iconHtml(v) +
         '<span class="th-name">' + v.depth + "</span></div>" +
         '<div style="padding:1.6rem">' +
         statusBadge + "<h3 style='margin-top:.6rem'>" + v.name + "</h3>" +
