@@ -401,8 +401,13 @@
     var grid = document.getElementById("videoGrid");
     if (!grid || !S2DATA.videos) return;
     grid.innerHTML = S2DATA.videos.map(function (v) {
-      var embed = "https://www.youtube-nocookie.com/embed/" + v.id +
+      var isPlaylist = !!v.list;
+      var ytId = isPlaylist ? "videoseries?list=" + v.list : v.id;
+      var embed = "https://www.youtube-nocookie.com/embed/" + ytId +
         "?rel=0&modestbranding=1&playsinline=1";
+      var watchUrl = isPlaylist
+        ? "https://www.youtube.com/playlist?list=" + v.list
+        : "https://www.youtube.com/watch?v=" + v.id;
       return '<article class="video-card reveal">' +
         '<div class="video-frame"><iframe src="' + embed + '" title="' + v.title +
         '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>' +
@@ -410,7 +415,7 @@
         '<h3>' + v.title + '</h3>' +
         '<p class="video-desc">' + v.desc + '</p>' +
         '<p class="video-sub">' + v.channel + ' · ' + v.views + ' views · ' + v.date + '</p>' +
-        '<a class="video-link" href="https://www.youtube.com/watch?v=' + v.id + '" target="_blank" rel="noopener">Watch on YouTube ↗</a>' +
+        '<a class="video-link" href="' + watchUrl + '" target="_blank" rel="noopener">Watch on YouTube ↗</a>' +
         '</div></article>';
     }).join("");
     initReveal();

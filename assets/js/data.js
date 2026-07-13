@@ -1,7 +1,7 @@
 /* ============================================================
    Subnautica 2 Guide — Content Data
    Sourced from the Subnautica 2 community wiki (subnautica2-wiki.net), the ali213 EA survival guide, the official Steam page,
-   and cross-checked against the IGN, GameWith, Polygon and GameSpot walkthrough hubs (Early Access, 2026).
+   and cross-checked against the IGN, GameWith, Polygon, GameSpot, PC Gamer and GameRant walkthrough hubs, the MapGenie interactive map, and the TheRevPlays YouTube walkthrough (Early Access, 2026).
    Facts are paraphrased; Subnautica 2 is in Early Access, so
    specifics may still change — items flagged `tbd: true` are
    planned/unconfirmed. Edit this file to contribute.
@@ -382,7 +382,7 @@ window.S2DATA = {
       body: "The Welcome Center arrives dark. Insert a Basic Battery into its slot to restore power, then scan the Habitat Builder fragment in the room below — that is the fastest way to unlock base building without hunting wreckage. The Bio Lab inside is your first Biomod hub." },
     { id: "camp-one", icon: "🏕️", category: "exploration", title: "Hit Camp One early",
       body: "A ruined colonist hab northeast of the Lifepod, rich in Titanium and Copper with scannable fragments. It is the ideal first resource run before deeper dives." },
-    { id: "tadpole-up", icon: "🐸", category: "vehicles", title: "Stack Tadpole engine upgrades",
+    { id: "tadpole-engine", icon: "🐸", category: "vehicles", title: "Stack Tadpole engine upgrades",
       body: "Engine Efficiency modules add +20% speed each and stack up to ×4 for +80% total (craft at the Modification Station). The Scout Ray Chassis raises top speed; the Haul Chassis adds built-in storage and a passenger seat." },
     { id: "power-storage", icon: "🔋", category: "building", title: "Grab Power Storage from bunkers",
       body: "Colonist bunkers that contain a Biobed often hide a scannable Power Storage unit on the wall — an unassuming box that looks like greebling. Scan it for your first backup power cache." },
@@ -437,6 +437,23 @@ window.S2DATA = {
       body: "Build your endgame base near the Alien Observatory in the Ruins so you do not have to cross the Trench repeatedly for every upgrade run." },
     { id: "collector", icon: "🐙", category: "combat", title: "Beware the Collector Leviathan",
       body: "The Collector Leviathan guards the Trench east of the Graveyards and pursues across biome boundaries. Run for your base and seal the compartments, it cannot breach them." },
+    /* --- Added from PC Gamer + GameRant (EA 2026) --- */
+    { id: "colony-habitat", icon: "💡", category: "exploration", title: "Blue lights lead to colony habitats",
+      body: "Trails of blue standing lights usually point to a colony habitat — a small flooded home with tools to scan and audio logs that fill in the story. Follow them whenever you spot one." },
+    { id: "scanner-station-range", icon: "📡", category: "exploration", title: "A Scanner Station reveals nearby materials",
+      body: "Build a Scanner Station and it pings every material node within roughly 300 m. You can scan your first one in the Old Habitat about 350 m north of the Lifepod." },
+    { id: "portable-locker-farm", icon: "🧰", category: "building", title: "Farm with a Portable Locker",
+      body: "When you head out to harvest, bring a Portable Locker — there is one waiting in the cave beneath the Lifepod. Stow spare materials so a death or full inventory never wastes a run." },
+    { id: "sonic-resonator-lead", icon: "🔊", category: "building", title: "The Sonic Resonator is a multi-tool",
+      body: "Beyond mining, it clears Bloom Biofilm, scares off predators and destroys viral blooms to unlock Adaptations at the Angel Combs. Lead is its hardest ingredient to source, so hoard any you find." },
+    { id: "tadpole-repair", icon: "🔧", category: "vehicles", title: "Carry a Repair Tool with your Tadpole",
+      body: "Once you are driving a Tadpole, predators will knock its hull around. Keep a Repair Tool on hand to patch it mid-dive so you are never stranded deep." },
+    { id: "lifepod-clamps", icon: "🔓", category: "survival", title: "Release the Lifepod clamps early",
+      body: "Freeing the clamps on the Lifepod opens up its structure and the storage and terminals inside — do it as soon as you can so nothing is boxed off." },
+    { id: "blackbox-loot", icon: "📦", category: "exploration", title: "Black Boxes hide more than story",
+      body: "NOA's Black Box signals mark the main story beats, but each site also tends to contain vital tools to scan or recipes to collect. Treat every Black Box run as a loot run too." },
+    { id: "biobed-hotbar", icon: "🛏️", category: "building", title: "Biobeds grant inventory and hotbar room",
+      body: "Working Biobeds inside colony habitats let you unlock Endurance (more inventory) and Dexterity (extra hotbar slots) at the console. Grab them early to ease the inventory crunch." },
     { id: "modes", icon: "🎮", category: "survival", title: "Creative vs Survival",
       body: "Creative mode removes all survival pressure — health, oxygen, food and water never drain, and every blueprint and adaptation is unlocked from the start. Survival keeps the classic loop, with story unfolding gradually through blackbox signals from the NoA Terminal." }
   ],
@@ -572,7 +589,12 @@ window.S2DATA = {
       locations: "Found in the Alien Ruins (Karakorum)." },
     { id: "troilite", name: "Troilite", icon: "🟤", rarity: 2, group: "mineral",
       uses: "An ore used in deep crafting.",
-      locations: "Deep biomes and wrecks." }
+      locations: "Deep biomes and wrecks." },
+
+    /* --- Added from PC Gamer / GameRant (EA 2026) --- */
+    { id: "lucifer-rotsac", name: "Lucifer Rotsac", icon: "🍄", rarity: 3, group: "biological",
+      uses: "Harvested to produce Rubber for fins, air tanks and the Air Bladder.",
+      locations: "Lucifer Rotsac flora growing on the seabed and cave walls." }
   ],
 
   /* ---------------- ADAPTATIONS & BIOMODS ---------------- */
@@ -763,6 +785,14 @@ window.S2DATA = {
       desc: "The first gameplay-reveal teaser that reintroduced the sequel." },
     { id: "w1M4b6PneFk", title: "Dev Vlog — Creating the Collector Leviathan", topic: "Creatures",
       channel: "Unknown Worlds", views: "495K", date: "Oct 2025",
-      desc: "How one of Subnautica 2's new Leviathans was brought to life." }
+      desc: "How one of Subnautica 2's new Leviathans was brought to life." },
+
+    /* Community walkthrough video series (collected from YouTube) */
+    { list: "PLDoI8UXnmgtb3PUAdQoOuh-O1BLoKezXZ", title: "Subnautica 2: Walkthrough & Guide (Playlist)", topic: "Walkthrough",
+      channel: "TheRevPlays", views: "140", date: "2026",
+      desc: "A 9-part guided playthrough covering genetics, resources and survival basics for new divers." },
+    { id: "Xw0II-OG_Is", title: "Subnautica 2 - Longplay 100% Full Game Walkthrough [No Commentary] 4k", topic: "Longplay",
+      channel: "YouTube", views: "—", date: "2026",
+      desc: "A full, uncommented 4K longplay of the Early Access campaign from start to finish." }
   ]
 };
