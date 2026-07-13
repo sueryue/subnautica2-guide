@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Co-op & Multiplayer — Subnautica 2 Guide</title>
+  <meta name="description" content="Subnautica 2 co-op: up to 4 players, cross-platform, single-player-first, and shared progression." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css?v=4" />
+</head>
+<body data-page="multiplayer">
+  <header class="nav">
+    <div class="container">
+      <a class="brand" href="index.html"><span class="logo">🌊</span> Subnautica 2 <span style="color:var(--accent)">Guide</span></a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="biomes.html">Biomes</a>
+        <a href="creatures.html">Creatures</a>
+        <a href="crafting.html">Crafting</a>
+        <a href="vehicles.html">Vehicles</a>
+        <a href="base-building.html">Base Building</a>
+        <a href="tips.html">Beginner's Guide</a>
+        <div class="nav-more" id="navMore">
+          <button class="nav-more-btn" id="navMoreBtn" aria-haspopup="true" aria-expanded="false">More <span class="caret">▾</span></button>
+          <div class="nav-more-panel" id="navMorePanel">
+            <a href="resources.html">Resources</a>
+            <a href="adaptations.html">Adaptations</a>
+            <a href="story.html">Story</a>
+            <a href="multiplayer.html" class="active">Co-op</a>
+            <a href="media.html">Media</a>
+            <a href="about.html">About</a>
+          </div>
+        </div>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="nav-burger" id="navBurger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="biomes.html">Biomes</a>
+    <a href="creatures.html">Creatures</a>
+    <a href="crafting.html">Crafting</a>
+    <a href="vehicles.html">Vehicles</a>
+    <a href="base-building.html">Base Building</a>
+    <a href="tips.html">Beginner's Guide</a>
+    <a href="resources.html">Resources</a>
+    <a href="adaptations.html">Adaptations</a>
+    <a href="story.html">Story</a>
+    <a href="multiplayer.html" class="active">Co-op</a>
+    <a href="media.html">Media</a>
+    <a href="about.html">About</a>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Co-op & Multiplayer</span>
+        <h2>Dive with up to three friends</h2>
+        <p class="lead">Subnautica 2 is built as a single-player experience you can optionally take online — co-op supports up to <strong>4 players</strong> and shared progression.</p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card reveal"><div class="ico" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--grad-soft);border:1px solid var(--border);font-size:1.5rem">👥</div><h3 style="margin:.8rem 0 .3rem">Single-player first</h3><p class="desc">Unknown Worlds built the game to work perfectly solo. Co-op is an added layer, not a separate mode that hollows out the campaign.</p></div>
+        <div class="card reveal"><div class="ico" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--grad-soft);border:1px solid var(--border);font-size:1.5rem">🌐</div><h3 style="margin:.8rem 0 .3rem">Up to 4, cross-platform</h3><p class="desc">Sessions support a party of four across all PC (Steam, Epic) and Xbox Series X|S players in the same dive.</p></div>
+        <div class="card reveal"><div class="ico" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--grad-soft);border:1px solid var(--border);font-size:1.5rem">🔁</div><h3 style="margin:.8rem 0 .3rem">Solo ↔ Co-op</h3><p class="desc">You're not locked at world creation. A single-player save can be opened into a co-op session anytime — the world keeps running.</p></div>
+        <div class="card reveal"><div class="ico" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--grad-soft);border:1px solid var(--border);font-size:1.5rem">📡</div><h3 style="margin:.8rem 0 .3rem">Shared progression</h3><p class="desc">Inventories, storage, PDA database entries, and blueprints are shared — scan one fragment and the whole team unlocks it.</p></div>
+      </div>
+
+      <div class="card reveal" style="padding:clamp(1.4rem,4vw,2.2rem);margin-top:2rem">
+        <h3 style="font-size:1.3rem">Why shared blueprints matter</h3>
+        <p class="desc">Classic co-op survival forces every player to re-grind the same tech tree. Subnautica 2 removes that friction: one player scanning a wreck benefits everyone. It makes splitting up to scan different wrecks a genuinely efficient strategy — and pairs perfectly with the planned <a href="vehicles.html">Mobile-Base Submarine</a>, a large shared vehicle suited to a four-person squad working the <a href="biomes.html">Abyssal Trench</a>.</p>
+        <p class="lore-callout" style="margin-top:1rem">Customizable base color & lighting (see <a href="base-building.html">Base Building</a>) shine in co-op — a whole crew shares one expressive habitat.</p>
+      </div>
+    </div>
+
+      <div class="section-head" style="margin-top:3rem"><h3 style="font-size:1.5rem">How co-op actually plays</h3></div>
+      <div class="grid grid-2">
+        <div class="card reveal"><div class="ico" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--grad-soft);border:1px solid var(--border);font-size:1.5rem">🤝</div><h3 style="margin:.8rem 0 .3rem">Share loot by standing close</h3><p class="desc">Walk up to a teammate and your inventories sync — hand off resources and gear without dropping a single container. Perfect for feeding the base builder mid-dive.</p></div>
+        <div class="card reveal"><div class="ico" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--grad-soft);border:1px solid var(--border);font-size:1.5rem">🏗️</div><h3 style="margin:.8rem 0 .3rem">Anyone can build</h3><p class="desc">Every player can place and edit modules in the shared habitat. Split the crew: one harvests while the other expands corridors and power.</p></div>
+        <div class="card reveal"><div class="ico" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--grad-soft);border:1px solid var(--border);font-size:1.5rem">💤</div><h3 style="margin:.8rem 0 .3rem">Downed? Respawn at the Biobed</h3><p class="desc">Die and you wake at the base Biobed — your respawn point. The Biobed Upgrade is a permanent, squad-wide boost, so build one early and the whole crew benefits.</p></div>
+        <div class="card reveal"><div class="ico" style="width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--grad-soft);border:1px solid var(--border);font-size:1.5rem">🕊️</div><h3 style="margin:.8rem 0 .3rem">No PvP, no friendly fire</h3><p class="desc">Co-op is purely cooperative by design — you can't hurt each other, so experiment freely with flares, tools and the Tadpole.</p></div>
+      </div>
+      <div class="card reveal" style="padding:clamp(1.4rem,4vw,2.2rem);margin-top:2rem">
+        <h3 style="font-size:1.3rem">Co-op tips from the community</h3>
+        <p class="desc">Tag-team the scan game: one player clears a wreck while the other hauls loot, because blueprints are shared the instant anyone scans. Keep the Tadpole parked near the dive site as a shared safe room — its hull eats predator hits so the squad can regroup inside.</p>
+      </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div>
+        <a class="brand" href="index.html" style="margin-bottom:.8rem"><span class="logo">🌊</span> Subnautica 2 <span style="color:var(--accent)">Guide</span></a>
+        <p style="color:var(--text-dim);font-size:.9rem;max-width:280px">A fan-made strategy hub. Not affiliated with Unknown Worlds or Krafton.</p>
+      </div>
+      <div><h4>Guide</h4><a href="biomes.html">Biomes</a><a href="creatures.html">Creatures</a><a href="crafting.html">Crafting</a><a href="vehicles.html">Vehicles</a><a href="base-building.html">Base Building</a><a href="tips.html">Beginner's Guide</a></div>
+      <div><h4>More</h4><a href="resources.html">Resources</a><a href="adaptations.html">Adaptations</a><a href="story.html">Story</a><a href="multiplayer.html">Co-op</a><a href="media.html">Media</a><a href="about.html">About</a></div>
+      <div><h4>Community</h4><a href="#">Discord</a><a href="#">Contribute</a><a href="#">Report data</a></div>
+      <div class="copy"><span>© <span id="year"></span> Subnautica 2 Guide. Fan project.</span><span>Co-op details paraphrased from the Subnautica 2 wiki.</span></div>
+    </div>
+  </footer>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
