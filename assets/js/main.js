@@ -190,6 +190,9 @@
         "<h3>" + r.name + "</h3>" +
         '<p class="desc">' + r.desc + "</p>" +
         '<div class="ings">' + ings + "</div>" +
+        (r.source ? (r.source.indexOf("http") === 0
+          ? '<a class="src-link" href="' + r.source + '" target="_blank" rel="noopener">✓ Verified source ↗</a>'
+          : '<span class="src-note">Source: ' + r.source + '</span>') : "") +
         (r.tbd ? tbd() : "") + "</article>";
     },
     base: function (m) {
@@ -358,6 +361,9 @@
           "<h4>" + v.step + "</h4>" +
           '<p class="desc">' + v.from + "</p>" +
           '<div class="wf-recipe">' + v.recipe + "</div>" +
+          (v.source ? (v.source.indexOf("http") === 0
+            ? '<a class="src-link" href="' + v.source + '" target="_blank" rel="noopener">✓ Verified source ↗</a>'
+            : '<span class="src-note">Source: ' + v.source + '</span>') : "") +
           "</div>";
       }).join("");
     }

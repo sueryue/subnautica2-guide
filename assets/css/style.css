@@ -476,3 +476,22 @@ h3 { font-size: 1.25rem; }
   .wf-num { width: 46px; height: 46px; font-size: 1.2rem; }
   .wf-cols { grid-template-columns: 1fr; }
 }
+
+/* Recipe source attribution (fully traceable) */
+.item-card .src-link,
+.wf-veh .src-link {
+  display: inline-flex; align-items: center; gap: .3em;
+  margin-top: .7rem; font-size: .76rem; font-weight: 600;
+  color: var(--accent, #46e6c8); text-decoration: none;
+  border: 1px solid color-mix(in srgb, var(--accent, #46e6c8) 35%, transparent);
+  padding: .25rem .55rem; border-radius: 999px;
+  background: color-mix(in srgb, var(--accent, #46e6c8) 10%, transparent);
+  transition: background .2s ease, transform .2s ease;
+}
+.item-card .src-link:hover,
+.wf-veh .src-link:hover { background: color-mix(in srgb, var(--accent, #46e6c8) 22%, transparent); transform: translateY(-1px); }
+.item-card .src-note,
+.wf-veh .src-note {
+  display: block; margin-top: .7rem; font-size: .74rem; font-style: italic;
+  color: var(--muted, #9fb0c3); opacity: .85;
+}
