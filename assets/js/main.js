@@ -263,6 +263,31 @@
   function badge(type, label) { return '<span class="badge ' + type + '">' + label + "</span> "; }
   function tbd() { return '<p class="note-tbd">⚠ Subnautica 2 details to be confirmed</p>'; }
 
+  /* ---------- Structured data (GEO: gives JS-executing crawlers entity data) ---------- */
+  function slugify(s) {
+    return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  }
+  function injectJsonLd(obj) {
+    try {
+      var s = JSON.stringify(obj).replace(/<\//g, "<\\/");
+      var el = document.createElement("script");
+      el.type = "application/ld+json";
+      el.textContent = s;
+      document.head.appendChild(el);
+    } catch (e) { /* non-fatal */ }
+  }
+  function injectItemList(items, nameKey, descKey) {
+    if (!items || !items.length) return;
+    var pageUrl = location.href.split("#")[0];
+    var list = items.map(function (it, i) {
+      var name = it[nameKey] || "";
+      var desc = String(it[descKey] || "").replace(/<[^>]+>/g, "");
+      return { "@type": "ListItem", "position": i + 1,
+        "item": { "@type": "Thing", "name": name, "description": desc, "url": pageUrl + "#" + slugify(name) } };
+    });
+    injectJsonLd({ "@context": "https://schema.org", "@type": "ItemList", "itemListElement": list });
+  }
+
   var templates = {
     biome: function (b) {
       return '<article class="card item-card reveal">' +
@@ -547,16 +572,16 @@
     renderRoute();
 
     var page = document.body.dataset.page;
-    if (page === "biomes") setupList({ root: "biomesRoot", data: S2DATA.biomes, tpl: templates.biome });
-    else if (page === "creatures") setupList({ root: "creaturesRoot", data: S2DATA.creatures, tpl: templates.creature });
-    else if (page === "crafting") setupList({ root: "craftingRoot", data: S2DATA.crafting, tpl: templates.crafting });
-    else if (page === "base") setupList({ root: "baseRoot", data: S2DATA.baseModules, tpl: templates.base });
-    else if (page === "vehicles") renderVehicles();
-    else if (page === "tips") setupList({ root: "tipsRoot", data: S2DATA.tips, tpl: templates.tip });
-    else if (page === "resources") setupList({ root: "resourcesRoot", data: S2DATA.resources, tpl: templates.resource });
-    else if (page === "adaptations") setupList({ root: "adaptationsRoot", data: S2DATA.adaptations, tpl: templates.adaptation });
+    if (page === "biomes") { setupList({ root: "biomesRoot", data: S2DATA.biomes, tpl: templates.biome }); injectItemList(S2DATA.biomes, "name", "desc"); }
+    else if (page === "creatures") { setupList({ root: "creaturesRoot", data: S2DATA.creatures, tpl: templates.creature }); injectItemList(S2DATA.creatures, "name", "desc"); }
+    else if (page === "crafting") { setupList({ root: "craftingRoot", data: S2DATA.crafting, tpl: templates.crafting }); injectItemList(S2DATA.crafting, "name", "desc"); }
+    else if (page === "base") { setupList({ root: "baseRoot", data: S2DATA.baseModules, tpl: templates.base }); injectItemList(S2DATA.baseModules, "name", "desc"); }
+    else if (page === "vehicles") { renderVehicles(); injectItemList(S2DATA.vehicles, "name", "desc"); }
+    else if (page === "tips") { setupList({ root: "tipsRoot", data: S2DATA.tips, tpl: templates.tip }); injectItemList(S2DATA.tips, "title", "body"); }
+    else if (page === "resources") { setupList({ root: "resourcesRoot", data: S2DATA.resources, tpl: templates.resource }); injectItemList(S2DATA.resources, "name", "desc"); }
+    else if (page === "adaptations") { setupList({ root: "adaptationsRoot", data: S2DATA.adaptations, tpl: templates.adaptation }); injectItemList(S2DATA.adaptations, "name", "desc"); }
     else if (page === "media") { renderVideos(); renderMedia(); }
-    else if (page === "walkthrough") renderWalkthrough();
+    else if (page === "walkthrough") { renderWalkthrough(); injectItemList(S2DATA.walkthrough, "title", "summary"); }
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

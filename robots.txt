@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# AI / generative-engine crawlers (ChatGPT, Claude, Perplexity, Google-Extended, etc.)
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: Bytespider
+User-agent: Applebot
+Allow: /
+
+Sitemap: https://sueryue.github.io/subnautica2-guide/sitemap.xml
