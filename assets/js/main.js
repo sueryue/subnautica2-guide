@@ -4,6 +4,112 @@
 (function () {
   "use strict";
 
+  /* ---------- Site chrome (nav + footer, rendered once) ---------- */
+  var ICON_SUN = '<svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  var ICON_MOON = '<svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  var ICON_BURGER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>';
+
+  // Single source of truth for navigation — grouped dropdowns keep the bar lean.
+  var NAV = [
+    { label: "World", items: [
+      { page: "biomes", href: "biomes.html", label: "Biomes" },
+      { page: "creatures", href: "creatures.html", label: "Creatures" },
+      { page: "resources", href: "resources.html", label: "Resources" }
+    ]},
+    { label: "Build", items: [
+      { page: "crafting", href: "crafting.html", label: "Crafting" },
+      { page: "vehicles", href: "vehicles.html", label: "Vehicles" },
+      { page: "base", href: "base-building.html", label: "Base Building" }
+    ]},
+    { label: "Progress", items: [
+      { page: "story", href: "story.html", label: "Story" },
+      { page: "adaptations", href: "adaptations.html", label: "Adaptations" },
+      { page: "multiplayer", href: "multiplayer.html", label: "Co-op" }
+    ]},
+    { label: "Guides", items: [
+      { page: "walkthrough", href: "walkthrough.html", label: "Walkthrough" },
+      { page: "tips", href: "tips.html", label: "Beginner's Guide" },
+      { page: "media", href: "media.html", label: "Media" }
+    ]}
+  ];
+  var NAV_STANDALONE = [
+    { page: "about", href: "about.html", label: "About" }
+  ];
+
+  function navGroupsHtml(page) {
+    var groups = NAV.map(function (g) {
+      var childActive = g.items.some(function (it) { return it.page === page; });
+      var links = g.items.map(function (it) {
+        var act = it.page === page ? " active" : "";
+        return '<a href="' + it.href + '" class="' + act.trim() + '">' + it.label + "</a>";
+      }).join("");
+      return '<div class="nav-group">' +
+        '<button class="nav-group-btn' + (childActive ? " active" : "") + '" aria-haspopup="true" aria-expanded="false">' +
+        g.label + ' <span class="caret">▾</span></button>' +
+        '<div class="nav-group-panel">' + links + "</div></div>";
+    }).join("");
+    var standalone = NAV_STANDALONE.map(function (it) {
+      var act = it.page === page ? " active" : "";
+      return '<a href="' + it.href + '" class="nav-standalone' + act + '">' + it.label + "</a>";
+    }).join("");
+    return groups + standalone;
+  }
+
+  function mobileMenuHtml(page) {
+    var out = '<a href="index.html" class="' + (page === "home" ? "active" : "") + '">Home</a>';
+    NAV.forEach(function (g) {
+      out += '<div class="mobile-group-label">' + g.label + "</div>";
+      g.items.forEach(function (it) {
+        out += '<a href="' + it.href + '" class="' + (it.page === page ? "active" : "") + '">' + it.label + "</a>";
+      });
+    });
+    NAV_STANDALONE.forEach(function (it) {
+      out += '<a href="' + it.href + '" class="' + (it.page === page ? "active" : "") + '">' + it.label + "</a>";
+    });
+    return out;
+  }
+
+  function footerCol(title, links) {
+    var body = links.map(function (l) {
+      var p = l.split("|");
+      return '<a href="' + p[0] + '">' + p[1] + "</a>";
+    }).join("");
+    return "<div><h4>" + title + "</h4>" + body + "</div>";
+  }
+
+  function renderChrome() {
+    var page = document.body.dataset.page;
+    var header = document.getElementById("siteHeader");
+    if (header) {
+      header.innerHTML =
+        '<div class="container">' +
+          '<a class="brand" href="index.html"><span class="logo">🌊</span> Subnautica 2 <span style="color:var(--accent)">Guide</span></a>' +
+          '<nav class="nav-groups">' + navGroupsHtml(page) + "</nav>" +
+          '<div class="nav-actions">' +
+            '<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">' + ICON_SUN + ICON_MOON + "</button>" +
+            '<button class="nav-burger" id="navBurger" aria-label="Menu">' + ICON_BURGER + "</button>" +
+          "</div>" +
+        "</div>" +
+        '<div class="mobile-menu" id="mobileMenu">' + mobileMenuHtml(page) + "</div>";
+    }
+    var footer = document.getElementById("siteFooter");
+    if (footer) {
+      var yr = new Date().getFullYear();
+      footer.innerHTML =
+        '<div class="container">' +
+          '<div><a class="brand" href="index.html" style="margin-bottom:.8rem"><span class="logo">🌊</span> Subnautica 2 <span style="color:var(--accent)">Guide</span></a>' +
+          '<p style="color:var(--text-dim);font-size:.9rem;max-width:280px">A fan-made strategy hub. Not affiliated with Unknown Worlds or Krafton.</p></div>' +
+          footerCol("Explore", ["biomes.html|Biomes", "creatures.html|Creatures", "resources.html|Resources"]) +
+          footerCol("Build", ["crafting.html|Crafting", "vehicles.html|Vehicles", "base-building.html|Base Building"]) +
+          footerCol("Progress", ["story.html|Story", "adaptations.html|Adaptations", "multiplayer.html|Co-op"]) +
+          footerCol("Guides", ["walkthrough.html|Walkthrough", "tips.html|Beginner's Guide", "media.html|Media", "about.html|About &amp; FAQ"]) +
+          footerCol("Community", ["#|Discord", "#|Contribute", "#|Report data"]) +
+          '<div class="copy"><span>© ' + yr + ' Subnautica 2 Guide. Fan project.</span>' +
+          '<span>Data based on the Subnautica universe · TBD items pending official release.</span></div>' +
+        "</div>";
+    }
+  }
+
   /* ---------- Theme (light / dark / system) ---------- */
   var THEME_KEY = "s2-theme";
   var themeToggle = document.getElementById("themeToggle");
@@ -36,7 +142,7 @@
     });
   }
 
-  /* ---------- Mobile menu ---------- */
+  /* ---------- Mobile menu + grouped dropdowns ---------- */
   function initNav() {
     var burger = document.getElementById("navBurger");
     var menu = document.getElementById("mobileMenu");
@@ -46,27 +152,30 @@
         a.addEventListener("click", function () { menu.classList.remove("open"); });
       });
     }
-    var navMore = document.getElementById("navMore");
-    var navMoreBtn = document.getElementById("navMoreBtn");
-    if (navMore && navMoreBtn) {
-      navMoreBtn.addEventListener("click", function (e) {
+    document.querySelectorAll(".nav-group").forEach(function (group) {
+      var btn = group.querySelector(".nav-group-btn");
+      if (!btn) return;
+      btn.addEventListener("click", function (e) {
         e.stopPropagation();
-        var open = navMore.classList.toggle("open");
-        navMoreBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        var open = group.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
       });
-      document.addEventListener("click", function (e) {
-        if (!navMore.contains(e.target)) {
-          navMore.classList.remove("open");
-          navMoreBtn.setAttribute("aria-expanded", "false");
-        }
-      });
-      navMore.querySelectorAll(".nav-more-panel a").forEach(function (a) {
+      group.querySelectorAll(".nav-group-panel a").forEach(function (a) {
         a.addEventListener("click", function () {
-          navMore.classList.remove("open");
-          navMoreBtn.setAttribute("aria-expanded", "false");
+          group.classList.remove("open");
+          btn.setAttribute("aria-expanded", "false");
         });
       });
-    }
+    });
+    document.addEventListener("click", function (e) {
+      document.querySelectorAll(".nav-group.open").forEach(function (g) {
+        if (!g.contains(e.target)) {
+          g.classList.remove("open");
+          var b = g.querySelector(".nav-group-btn");
+          if (b) b.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
   }
 
   /* ---------- Scroll reveal ---------- */
@@ -429,6 +538,7 @@
 
   /* ---------- Boot ---------- */
   function boot() {
+    renderChrome();
     initTheme();
     initNav();
     initReveal();
