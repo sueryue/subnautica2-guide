@@ -1,7 +1,7 @@
 /* ============================================================
    Subnautica 2 Guide — Content Data
    Sourced from the Subnautica 2 community wiki (subnautica2-wiki.net), the ali213 EA survival guide, the official Steam page,
-   and cross-checked against the IGN, GameWith, Polygon, GameSpot, PC Gamer and GameRant walkthrough hubs, the MapGenie interactive map, and the TheRevPlays YouTube walkthrough (Early Access, 2026).
+   and cross-checked against the IGN, GameWith, Polygon, GameSpot, PC Gamer, GameRant and MeinMMO walkthrough hubs, the MapGenie interactive map, and the TheRevPlays YouTube walkthrough (Early Access, 2026).
    Facts are paraphrased; Subnautica 2 is in Early Access, so
    specifics may still change — items flagged `tbd: true` are
    planned/unconfirmed. Edit this file to contribute.
@@ -454,6 +454,16 @@ window.S2DATA = {
       body: "NOA's Black Box signals mark the main story beats, but each site also tends to contain vital tools to scan or recipes to collect. Treat every Black Box run as a loot run too." },
     { id: "biobed-hotbar", icon: "🛏️", category: "building", title: "Biobeds grant inventory and hotbar room",
       body: "Working Biobeds inside colony habitats let you unlock Endurance (more inventory) and Dexterity (extra hotbar slots) at the console. Grab them early to ease the inventory crunch." },
+    { id: "tadpole-pens", icon: "🔑", category: "story", title: "Tadpole Pens are keycode-locked",
+      body: "The Tadpole Pens are gated behind a keycode you recover through a databank treasure-hunt. Scan the clue fragments scattered around the starting area to piece the code together before you can store and breed Tadpoles there." },
+    { id: "scan-leviathan", icon: "🦈", category: "combat", title: "Scan Leviathans from safety",
+      body: "Scanning a Leviathan is high-risk, high-reward: it yields rare Biomods and deep lore. Do it from inside a Tadpole at range, or drop flares to break its aggro, then scan and retreat before it closes in." },
+    { id: "explorers", icon: "👥", category: "multiplayer", title: "Pick your explorer",
+      body: "Every session opens by choosing from a roster of explorers — a cosmetic/identity pick that carries across both solo and co-op saves. It changes nothing mechanically, so pick whoever fits your vibe." },
+    { id: "debug-console", icon: "⌨️", category: "building", title: "There is a debug console",
+      body: "Subnautica 2 ships a debug/console command interface for testing and unsticking saves. It is handy in a pinch, but leaning on it can disable achievements — use it as a last resort." },
+    { id: "roadmap", icon: "🗺️", category: "survival", title: "Watch the Early Access roadmap",
+      body: "Unknown Worlds publishes an Early Access roadmap of upcoming content drops. Check it to see which biomes, creatures and systems are still on the way so you know what to expect." },
     { id: "modes", icon: "🎮", category: "survival", title: "Creative vs Survival",
       body: "Creative mode removes all survival pressure — health, oxygen, food and water never drain, and every blueprint and adaptation is unlocked from the start. Survival keeps the classic loop, with story unfolding gradually through blackbox signals from the NoA Terminal." }
   ],
