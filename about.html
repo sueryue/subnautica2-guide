@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=5" />
+  <link rel="stylesheet" href="assets/css/style.css?v=6" />
 </head>
 <body data-page="about">
   <header class="nav">
@@ -25,6 +25,7 @@
         <div class="nav-more" id="navMore">
           <button class="nav-more-btn" id="navMoreBtn" aria-haspopup="true" aria-expanded="false">More <span class="caret">▾</span></button>
           <div class="nav-more-panel" id="navMorePanel">
+            <a href="walkthrough.html">Walkthrough</a>
             <a href="resources.html">Resources</a>
             <a href="adaptations.html">Adaptations</a>
             <a href="story.html">Story</a>
@@ -51,6 +52,7 @@
     <a href="vehicles.html">Vehicles</a>
     <a href="base-building.html">Base Building</a>
     <a href="tips.html">Beginner's Guide</a>
+    <a href="walkthrough.html">Walkthrough</a>
     <a href="resources.html">Resources</a>
     <a href="adaptations.html">Adaptations</a>
     <a href="story.html">Story</a>
@@ -67,7 +69,7 @@
         <p class="lead">This is a fan-made, open strategy hub for Subnautica 2. It is not affiliated with Unknown Worlds or Krafton, and exists to help players plan their adventure on the ocean moon Proteus.</p>
       </div>
       <div class="grid grid-2" id="faq">
-        <div class="card reveal"><h3>Where does the data come from?</h3><p class="desc">Entries are compiled from the <strong>Subnautica 2 community wiki (subnautica2-wiki.net)</strong>, the <strong>ali213 Early Access survival guide</strong>, and the <strong>official Steam store page</strong>, plus other published EA coverage (Epic, Kotaku, TapTap, Ludens). Biome and creature names, depths and threat tiers reflect community-documented Early Access data and may change before full release. Precise distances/coordinates are approximate and vary by seed/build.</p></div>
+        <div class="card reveal"><h3>Where does the data come from?</h3><p class="desc">Entries are compiled from the <strong>Subnautica 2 community wiki (subnautica2-wiki.net)</strong>, the <strong>ali213 Early Access survival guide</strong>, the <strong>official Steam store page</strong>, and the <strong>IGN, GameWith, Polygon and GameSpot walkthrough hubs</strong>, plus other published EA coverage (Epic, Kotaku, TapTap, Ludens). Biome and creature names, depths and threat tiers reflect community-documented Early Access data and may change before full release. Precise distances/coordinates are approximate and vary by seed/build.</p></div>
         <div class="card reveal"><h3>What does "TBD" mean?</h3><p class="desc">Items marked <span class="note-tbd">⚠ Subnautica 2 details to be confirmed</span> are likely to change when the game ships. Treat them as placeholders to be replaced with verified data.</p></div>
         <div class="card reveal"><h3>Is this the full game?</h3><p class="desc">No — Subnautica 2 is still in Early Access. This guide already covers <strong>twelve boards</strong>: Biomes, Creatures, Crafting, Vehicles, Base Building, Beginner's Guide, Resources, Adaptations, Story, Co-op, and this About page.</p></div>
         <div class="card reveal"><h3>How do I contribute?</h3><p class="desc">The site is plain HTML/CSS/JS on GitHub. Edit <code>assets/js/data.js</code> to add or correct entries, then open a pull request. No build step required.</p></div>
@@ -84,14 +86,14 @@
         <a class="brand" href="index.html" style="margin-bottom:.8rem"><span class="logo">🌊</span> Subnautica 2 <span style="color:var(--accent)">Guide</span></a>
         <p style="color:var(--text-dim);font-size:.9rem;max-width:280px">A fan-made strategy hub. Not affiliated with Unknown Worlds or Krafton.</p>
       </div>
-      <div><h4>Guide</h4><a href="biomes.html">Biomes</a><a href="creatures.html">Creatures</a><a href="crafting.html">Crafting</a><a href="vehicles.html">Vehicles</a><a href="base-building.html">Base Building</a><a href="tips.html">Beginner's Guide</a></div>
+      <div><h4>Guide</h4><a href="biomes.html">Biomes</a><a href="creatures.html">Creatures</a><a href="crafting.html">Crafting</a><a href="vehicles.html">Vehicles</a><a href="base-building.html">Base Building</a><a href="tips.html">Beginner's Guide</a><a href="walkthrough.html">Walkthrough</a></div>
       <div><h4>More</h4><a href="resources.html">Resources</a><a href="adaptations.html">Adaptations</a><a href="story.html">Story</a><a href="multiplayer.html">Co-op</a><a href="media.html">Media</a><a href="about.html">About</a></div>
       <div><h4>Community</h4><a href="#">Discord</a><a href="#">Contribute</a><a href="#">Report data</a></div>
       <div class="copy"><span>© <span id="year"></span> Subnautica 2 Guide. Fan project.</span><span>Data based on the Subnautica universe · TBD items pending official release.</span></div>
     </div>
   </footer>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/data.js?v=6"></script>
+  <script src="assets/js/main.js?v=6"></script>
 </body>
 </html>
