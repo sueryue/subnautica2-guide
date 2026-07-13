@@ -348,6 +348,26 @@
     });
   }
 
+  /* ---------- YouTube videos (official channel) ---------- */
+  function renderVideos() {
+    var grid = document.getElementById("videoGrid");
+    if (!grid || !S2DATA.videos) return;
+    grid.innerHTML = S2DATA.videos.map(function (v) {
+      var embed = "https://www.youtube-nocookie.com/embed/" + v.id +
+        "?rel=0&modestbranding=1&playsinline=1";
+      return '<article class="video-card reveal">' +
+        '<div class="video-frame"><iframe src="' + embed + '" title="' + v.title +
+        '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>' +
+        '<div class="video-meta"><span class="video-topic">' + v.topic + '</span>' +
+        '<h3>' + v.title + '</h3>' +
+        '<p class="video-desc">' + v.desc + '</p>' +
+        '<p class="video-sub">' + v.channel + ' · ' + v.views + ' views · ' + v.date + '</p>' +
+        '<a class="video-link" href="https://www.youtube.com/watch?v=' + v.id + '" target="_blank" rel="noopener">Watch on YouTube ↗</a>' +
+        '</div></article>';
+    }).join("");
+    initReveal();
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     initTheme();
@@ -366,7 +386,7 @@
     else if (page === "tips") setupList({ root: "tipsRoot", data: S2DATA.tips, tpl: templates.tip });
     else if (page === "resources") setupList({ root: "resourcesRoot", data: S2DATA.resources, tpl: templates.resource });
     else if (page === "adaptations") setupList({ root: "adaptationsRoot", data: S2DATA.adaptations, tpl: templates.adaptation });
-    else if (page === "media") renderMedia();
+    else if (page === "media") { renderVideos(); renderMedia(); }
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
