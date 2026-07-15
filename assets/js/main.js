@@ -452,6 +452,21 @@
       if (b && b.dataset.id) { toggleScanned(b.dataset.id); syncScanUI(); }
     });
   }
+  function escHtml(s) {
+    return String(s).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; });
+  }
+  // Build "filter by drop" chips from the real creature drop data, so players can
+  // hunt by resource ("which creatures drop X?") — not just by name.
+  function buildDropFilters() {
+    var host = document.getElementById("dropFilters");
+    if (!host || !S2DATA.creatures) return;
+    var set = {};
+    S2DATA.creatures.forEach(function (c) { (c.drops || []).forEach(function (d) { set[d] = 1; }); });
+    var keys = Object.keys(set).sort();
+    host.insertAdjacentHTML("beforeend", keys.map(function (k) {
+      return '<button class="chip" data-filter="drop:' + escHtml(k) + '">' + escHtml(k) + "</button>";
+    }).join(""));
+  }
 
   /* ---------- Beginner: phased route + death causes ---------- */
   function renderRoutePhases() {
@@ -773,6 +788,11 @@
       }
       for (var key in state.filters) {
         var want = state.filters[key];
+        if (key === "drop") {
+          var ds = item.drops || [];
+          if (ds.indexOf(want) === -1) return false;
+          continue;
+        }
         if (want && item[key] !== want) return false;
       }
       return true;
@@ -962,7 +982,7 @@
 
     var page = document.body.dataset.page;
     if (page === "biomes") { setupList({ root: "biomesRoot", data: S2DATA.biomes, tpl: templates.biome }); injectItemList(S2DATA.biomes, "name", "desc"); }
-    else if (page === "creatures") { setupList({ root: "creaturesRoot", data: S2DATA.creatures, tpl: templates.creature }); renderScanProgress(); injectItemList(S2DATA.creatures, "name", "desc"); }
+    else if (page === "creatures") { buildDropFilters(); setupList({ root: "creaturesRoot", data: S2DATA.creatures, tpl: templates.creature }); renderScanProgress(); injectItemList(S2DATA.creatures, "name", "desc"); }
     else if (page === "crafting") { setupList({ root: "craftingRoot", data: S2DATA.crafting, tpl: templates.crafting }); renderCraftingStations(); injectItemList(S2DATA.crafting, "name", "desc"); }
     else if (page === "base") { setupList({ root: "baseRoot", data: S2DATA.baseModules, tpl: templates.base }); renderBasePlanner(); injectItemList(S2DATA.baseModules, "name", "desc"); }
     else if (page === "vehicles") { renderVehicles(); renderVehicleCompare(); injectItemList(S2DATA.vehicles, "name", "desc"); }

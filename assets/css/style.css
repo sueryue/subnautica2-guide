@@ -255,6 +255,15 @@ h3 { font-size: 1.25rem; }
 }
 .chip:hover { color: var(--text); border-color: var(--border-strong); }
 .chip.active { background: var(--grad); color: #021018; border-color: transparent; font-weight: 600; }
+/* Threat-coloured filter chips (match the 5-colour legend) */
+.filter-group { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.5rem; }
+.chip-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); font-weight: 700; margin-right: 0.1rem; }
+.chip.th-safe { border-color: color-mix(in srgb, var(--accent-2) 45%, var(--border)); }
+.chip.th-caution { border-color: color-mix(in srgb, var(--warn) 50%, var(--border)); }
+.chip.th-danger { border-color: color-mix(in srgb, var(--accent-3) 55%, var(--border)); }
+.chip.th-leviathan { border-color: color-mix(in srgb, var(--accent-3) 55%, var(--border)); background: color-mix(in srgb, var(--accent-3) 9%, transparent); }
+.chip.th-info { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.chip.th-leviathan.active, .chip.th-danger.active, .chip.th-caution.active, .chip.th-safe.active, .chip.th-info.active { color: #021018; border-color: transparent; }
 .search {
   flex: 1; min-width: 200px; display: flex; align-items: center; gap: 0.6rem;
   padding: 0.55rem 1rem; border-radius: 999px; background: var(--surface); border: 1px solid var(--border);
