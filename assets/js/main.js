@@ -524,25 +524,41 @@
     bar.innerHTML = S2DATA.vehicles.map(function (v) {
       return '<label class="cmp-check"><input type="checkbox" data-cmp="' + v.id + '"> ' + v.icon + " " + v.name + "</label>";
     }).join("") + '<button class="btn btn-primary btn-sm" id="cmpGo" type="button">Compare</button>';
+    var box = document.getElementById("vehicleCompareOut");
+    function specRow(label, val) {
+      return '<div class="vs-spec"><span class="vs-label">' + label + '</span><span class="vs-val">' + val + '</span></div>';
+    }
+    function specBar(label, val, max, text) {
+      var pct = Math.max(8, Math.round(val / max * 100));
+      return '<div class="vs-spec vs-spec-bar"><span class="vs-label">' + label + '</span>' +
+        '<span class="vs-bar"><span class="vs-fill" style="width:' + pct + '%"></span></span>' +
+        '<span class="vs-val">' + text + '</span></div>';
+    }
     window.__renderCmp = function () {
-      var box = document.getElementById("vehicleCompareOut");
       if (!box) return;
       var ids = Array.prototype.slice.call(document.querySelectorAll("input[data-cmp]:checked")).map(function (i) { return i.dataset.cmp; });
-      if (ids.length < 2) { box.innerHTML = '<p class="lead">Select at least two vehicles to compare.</p>'; return; }
       var vs = ids.map(function (id) { return S2DATA.vehicles.filter(function (v) { return v.id === id; })[0]; }).filter(Boolean);
-      var rows = [
-        ["Status", function (v) { return v.status === "planned" ? "Planned (TBD)" : "Available"; }],
-        ["Depth rating", function (v) { return v.depth; }],
-        ["Modules", function (v) { return v.modules.length + " module" + (v.modules.length === 1 ? "" : "s"); }],
-        ["Top speed", function (v) { return v.status === "available" ? "TBD (Early Access)" : "—"; }],
-        ["Cargo", function (v) { return v.status === "available" ? "TBD (Early Access)" : "—"; }]
-      ];
-      var head = "<tr><th>Spec</th>" + vs.map(function (v) { return "<th>" + v.icon + " " + v.name + "</th>"; }).join("") + "</tr>";
-      var body = rows.map(function (r) {
-        return "<tr><td class=\"cmp-spec\">" + r[0] + "</td>" + vs.map(function (v) { return "<td>" + r[1](v) + "</td>"; }).join("") + "</tr>";
-      }).join("");
-      box.innerHTML = '<div class="table-wrap"><table class="cmp-table"><thead>' + head + "</thead><tbody>" + body + "</tbody></table></div>" +
-        '<p class="note-tbd">⚠ Exact speed / cargo figures are not yet public in Early Access — compare capability, not numbers.</p>';
+      if (vs.length < 2) { box.innerHTML = '<p class="lead">Tick at least two vehicles to pit them head-to-head.</p>'; return; }
+      var maxMod = Math.max.apply(null, vs.map(function (v) { return (v.cmp && typeof v.cmp.modules === "number") ? v.cmp.modules : 0; }).concat([1]));
+      var cards = vs.map(function (v) {
+        var c = v.cmp || {};
+        var st = v.status === "planned" ? '<span class="badge info">Planned</span>' : '<span class="badge safe">Available</span>';
+        var modText = (typeof c.modules === "number") ? (c.modules + (c.modNote ? ' <span class="vs-sub">· ' + c.modNote + "</span>" : "")) : (c.modules || "—");
+        var modBar = (typeof c.modules === "number") ? specBar("Module slots", c.modules, maxMod, modText) : specRow("Module slots", modText);
+        return '<div class="vs-card">' +
+          '<div class="vs-head"><span class="vs-icon">' + v.icon + '</span><div><h4>' + v.name + '</h4>' + st + '</div></div>' +
+          '<div class="vs-specs">' +
+            specRow("Depth ceiling", c.depth || v.depth || "TBD") +
+            specRow("Top speed", c.speed || "TBD (Early Access)") +
+            specRow("Storage", c.storage || "TBD (Early Access)") +
+            modBar +
+            specRow("Mobility", c.mobility || "—") +
+          '</div>' +
+          '<p class="vs-verdict">' + (c.verdict || "") + '</p>' +
+        '</div>';
+      }).join('<div class="vs-divider">VS</div>');
+      box.innerHTML = '<div class="vs-grid">' + cards + '</div>' +
+        '<p class="note-tbd">⚠ Exact speed / cargo / depth numbers are not yet public in Early Access — compare capability, not numbers. Module-slot counts reflect listed chassis &amp; mountable modules.</p>';
     };
     bar.addEventListener("change", window.__renderCmp);
     var go = document.getElementById("cmpGo");
@@ -569,6 +585,106 @@
     };
     bar.addEventListener("change", window.__renderPlan);
     window.__renderPlan();
+  }
+
+  /* ---------- Build calculator (editable rates, honest SN2 baseline) ---------- */
+  function renderBuildCalc() {
+    var root = document.getElementById("buildCalc");
+    if (!root) return;
+    var PIECES = [
+      { id: "room", label: "Multi-Purpose Room", icon: "🏠" },
+      { id: "aquarium", label: "Aquarium", icon: "🐠" },
+      { id: "moonpool", label: "Moonpool", icon: "🌙" },
+      { id: "glasswall", label: "Glass Wall", icon: "🪟" },
+      { id: "corridor", label: "Corridor", icon: "➡️" },
+      { id: "observatory", label: "Observatory", icon: "🔭" },
+      { id: "hatch", label: "Hatch", icon: "🚪" },
+      { id: "foundation", label: "Foundation", icon: "🧱" }
+    ];
+    var RES = ["Titanium", "Lead", "Quartz", "Glass", "Copper", "Lithium", "Lubricant", "Enameled Glass"];
+    var SEED = { moonpool: { Titanium: 5 } }; // 5 Titanium confirmed in-game (tips data)
+    var SN1_REF = {
+      room: { Titanium: 6 },
+      aquarium: { Glass: 2, Titanium: 1 },
+      glasswall: { Glass: 1 },
+      corridor: { Titanium: 2 },
+      observatory: { "Enameled Glass": 2, Titanium: 1 },
+      hatch: { Quartz: 1, Titanium: 2 },
+      foundation: { Titanium: 2, Lead: 2 }
+    };
+    var counts = {}; PIECES.forEach(function (p) { counts[p.id] = 0; });
+    var rates = JSON.parse(JSON.stringify(SEED));
+    PIECES.forEach(function (p) { if (!rates[p.id]) rates[p.id] = {}; });
+
+    var steppersEl = document.getElementById("calcSteppers");
+    var ratesEl = document.getElementById("calcRates");
+    var tallyEl = document.getElementById("calcTally");
+
+    function renderSteppers() {
+      steppersEl.innerHTML = PIECES.map(function (p) {
+        return '<div class="calc-step"><span class="calc-step-label">' + p.icon + " " + p.label + '</span>' +
+          '<span class="stepper"><button type="button" class="step-btn" data-step="' + p.id + '" data-d="-1" aria-label="decrease">−</button>' +
+          '<span class="step-val" id="cnt-' + p.id + '">' + counts[p.id] + '</span>' +
+          '<button type="button" class="step-btn" data-step="' + p.id + '" data-d="1" aria-label="increase">+</button></span></div>';
+      }).join("");
+    }
+    function renderRates() {
+      var head = '<div class="rate-row rate-head"><span class="rate-piece">Piece</span>' +
+        RES.map(function (r) { return '<span class="rate-res">' + r + '</span>'; }).join("") + '</div>';
+      var rows = PIECES.map(function (p) {
+        return '<div class="rate-row"><span class="rate-piece">' + p.icon + " " + p.label + '</span>' +
+          RES.map(function (r) {
+            var v = rates[p.id][r] || 0;
+            return '<input class="rate-cell" type="number" min="0" step="1" data-piece="' + p.id + '" data-res="' + r + '" value="' + (v || "") + '" placeholder="—">';
+          }).join("") + '</div>';
+      }).join("");
+      ratesEl.innerHTML = head + rows;
+    }
+    function renderTally() {
+      var tot = {};
+      PIECES.forEach(function (p) {
+        var n = counts[p.id]; if (!n) return;
+        RES.forEach(function (r) {
+          var q = rates[p.id][r] || 0;
+          if (q) tot[r] = (tot[r] || 0) + q * n;
+        });
+      });
+      var keys = Object.keys(tot);
+      if (!keys.length) { tallyEl.innerHTML = '<p class="lead calc-empty">Add pieces above (or load the SN1 reference) to see your material tally.</p>'; return; }
+      tallyEl.innerHTML = '<h4 class="calc-tally-head">Estimated materials</h4><div class="calc-tally-grid">' +
+        keys.map(function (r) { return '<div class="tally-chip"><span class="tally-res">' + r + '</span><span class="tally-qty">×' + tot[r] + '</span></div>'; }).join("") +
+        '</div><p class="note-tbd">⚠ This mixes confirmed SN2 data (Moonpool = 5 Titanium) with whatever rates you enter. Verify against your own scanned blueprints before committing titanium.</p>';
+    }
+
+    renderSteppers(); renderRates(); renderTally();
+
+    steppersEl.addEventListener("click", function (e) {
+      var b = e.target.closest ? e.target.closest(".step-btn") : null;
+      if (!b) return;
+      var id = b.dataset.step, d = parseInt(b.dataset.d, 10);
+      counts[id] = Math.max(0, counts[id] + d);
+      var el = document.getElementById("cnt-" + id); if (el) el.textContent = counts[id];
+      renderTally();
+    });
+    ratesEl.addEventListener("input", function (e) {
+      var c = e.target.closest ? e.target.closest(".rate-cell") : null;
+      if (!c) return;
+      var id = c.dataset.piece, r = c.dataset.res, v = parseInt(c.value, 10) || 0;
+      rates[id][r] = v; renderTally();
+    });
+    var sn1 = document.getElementById("calcSn1");
+    if (sn1) sn1.addEventListener("click", function () {
+      rates = JSON.parse(JSON.stringify(SEED));
+      PIECES.forEach(function (p) { if (SN1_REF[p.id]) rates[p.id] = JSON.parse(JSON.stringify(SN1_REF[p.id])); });
+      renderRates(); renderTally();
+    });
+    var reset = document.getElementById("calcReset");
+    if (reset) reset.addEventListener("click", function () {
+      rates = JSON.parse(JSON.stringify(SEED));
+      PIECES.forEach(function (p) { if (!rates[p.id]) rates[p.id] = {}; });
+      PIECES.forEach(function (p) { counts[p.id] = 0; });
+      renderSteppers(); renderRates(); renderTally();
+    });
   }
 
   /* ---------- Co-op host / client table ---------- */
@@ -1085,7 +1201,7 @@
     if (page === "biomes") { setupList({ root: "biomesRoot", data: S2DATA.biomes, tpl: templates.biome }); injectItemList(S2DATA.biomes, "name", "desc"); }
     else if (page === "creatures") { buildDropFilters(); setupList({ root: "creaturesRoot", data: S2DATA.creatures, tpl: templates.creature }); renderScanProgress(); injectItemList(S2DATA.creatures, "name", "desc"); }
     else if (page === "crafting") { setupList({ root: "craftingRoot", data: S2DATA.crafting, tpl: templates.crafting }); renderCraftingStations(); injectItemList(S2DATA.crafting, "name", "desc"); }
-    else if (page === "base") { setupList({ root: "baseRoot", data: S2DATA.baseModules, tpl: templates.base }); renderBasePlanner(); injectItemList(S2DATA.baseModules, "name", "desc"); }
+    else if (page === "base") { setupList({ root: "baseRoot", data: S2DATA.baseModules, tpl: templates.base }); renderBasePlanner(); renderBuildCalc(); injectItemList(S2DATA.baseModules, "name", "desc"); }
     else if (page === "vehicles") { renderVehicles(); renderVehicleCompare(); injectItemList(S2DATA.vehicles, "name", "desc"); }
     else if (page === "tips") { setupList({ root: "tipsRoot", data: S2DATA.tips, tpl: templates.tip }); renderRoutePhases(); renderDeathCauses(); injectItemList(S2DATA.tips, "title", "body"); }
     else if (page === "resources") { setupList({ root: "resourcesRoot", data: S2DATA.resources, tpl: templates.resource }); injectItemList(S2DATA.resources, "name", "uses"); }

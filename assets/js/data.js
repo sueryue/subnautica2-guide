@@ -324,6 +324,7 @@ window.S2DATA = {
   vehicles: [
     { id: "tadpole", name: "Tadpole", icon: "🐸", status: "available", depth: "Modular (depth via chassis / modules)",
       desc: "The modular core vehicle of Subnautica 2 — a hardpoint-based submersible you rebuild with swappable chassis and mountable modules.",
+      cmp: { depth: "Modular — add Depth Reinforcement to go deeper", speed: "TBD (Early Access)", storage: "0 built-in · +2×15 lockers", modules: 9, mobility: "Swim + walk (Seafrog chassis)", verdict: "The all-rounder. Scan 3 fragments, build it early, then bolt on chassis & modules as you dive deeper." },
       modules: [
         { id: "seafrog-chassis", name: "Seafrog Chassis", icon: "🦿", desc: "Exoskeleton chassis that walks the seabed on legs." },
         { id: "storage-module", name: "Storage Module", icon: "📦", desc: "Adds external cargo capacity." },
@@ -337,12 +338,15 @@ window.S2DATA = {
       ] },
     { id: "seafrog", name: "Seafrog Chassis", icon: "🦿", status: "available", depth: "Seabed walker",
       desc: "A Tadpole chassis variant built like an exoskeleton. It walks the seabed on legs — ideal for terrain that punishes swimming and for heavy work.",
+      cmp: { depth: "Seabed walker (shallow terrain)", speed: "TBD — walks, slower than swim", storage: "Shares Tadpole core", modules: 0, modNote: "Seafrog is itself a Tadpole chassis", mobility: "Walk on legs", verdict: "The terrain specialist. Stomps the seafloor and hauls heavy loads where swimming fails." },
       modules: [] },
     { id: "mobile-base", name: "Mobile-Base Submarine", icon: "🚢", status: "planned", depth: "Deep expeditions",
       desc: "A large, drivable submarine that doubles as a redeployable base. Confirmed for a post-launch Early Access update.",
+      cmp: { depth: "Deep expeditions", speed: "TBD (Early Access)", storage: "Doubles as a base", modules: "—", mobility: "Drive + base", verdict: "Coming post-launch. A redeployable submarine-base for long deep runs." },
       modules: [], tbd: true },
     { id: "mech-suit", name: "Mech Suit", icon: "🤖", status: "planned", depth: "Deep high-pressure",
       desc: "A heavy walking combat / engineering suit for deep, high-pressure work. Confirmed for a post-launch update.",
+      cmp: { depth: "Deep high-pressure", speed: "TBD (Early Access)", storage: "Tool mounts", modules: "—", mobility: "Walk (heavy)", verdict: "Coming post-launch. Heavy combat / engineering suit for the abyss." },
       modules: [], tbd: true }
   ],
 
