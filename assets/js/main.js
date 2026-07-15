@@ -154,6 +154,30 @@
     });
   }
 
+  /* ---------- Reader mode: a light "paper" palette for long-form reading ---------- */
+  var READER_KEY = "s2-reader";
+  function setReader(on) {
+    document.documentElement.setAttribute("data-reader", on ? "light" : "dark");
+    try { localStorage.setItem(READER_KEY, on ? "light" : "dark"); } catch (e) {}
+    document.querySelectorAll(".reader-toggle").forEach(function (b) {
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      var lbl = b.querySelector(".reader-label");
+      if (lbl) lbl.textContent = on ? "Reading mode: on" : "Reading mode";
+    });
+  }
+  function initReaderMode() {
+    var saved = "dark";
+    try { saved = localStorage.getItem(READER_KEY) || "dark"; } catch (e) {}
+    setReader(saved === "light");
+    document.querySelectorAll(".reader-toggle").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var cur = document.documentElement.getAttribute("data-reader") === "light";
+        setReader(!cur);
+      });
+    });
+  }
+
   /* ---------- Mobile menu + grouped dropdowns ---------- */
   function initNav() {
     var burger = document.getElementById("navBurger");
@@ -375,6 +399,41 @@
     add(S2DATA.walkthrough, "walkthrough.html", "Story");
     return idx;
   }
+  // Intent aliases — natural-language / synonym search. A query that contains any
+  // key (or vice-versa) injects the linked terms as bonus scoring signals, so
+  // "怎么潜水更深" surfaces Depth Module + Pressure Adaptation without literal matches.
+  var SEARCH_ALIASES = {
+    "dive deeper": ["depth", "crush", "pressure", "deep"],
+    "go deeper": ["depth", "crush", "pressure", "deep"],
+    "怎么潜水更深": ["depth", "crush", "pressure", "deep", "潜水", "更深"],
+    "deeper": ["depth", "crush", "pressure"],
+    "too deep": ["crush", "pressure", "depth"],
+    "crush damage": ["crush", "pressure", "depth"],
+    "缺氧": ["oxygen", "air", "tank", "breath"],
+    "breath longer": ["oxygen", "air", "tank"],
+    "breathe": ["oxygen", "air", "tank"],
+    "more oxygen": ["oxygen", "air", "tank", "rebreather"],
+    "电量": ["battery", "power", "cell"],
+    "battery": ["battery", "power", "cell"],
+    "power": ["battery", "power", "cell"],
+    "基地": ["base", "moonpool", "habitat"],
+    "build base": ["base", "moonpool", "habitat"],
+    "扫描": ["scanner", "scan", "blueprint"],
+    "scanner": ["scanner", "scan", "blueprint"],
+    "faster": ["speed", "fins", "engine", "thruster"],
+    "swim faster": ["speed", "fins", "engine", "thruster"],
+    "联机": ["co-op", "multiplayer", "host"],
+    "coop": ["co-op", "multiplayer", "host"],
+    "multiplayer": ["co-op", "multiplayer", "host"],
+    "where find": ["biome", "resource", "location"],
+    "location": ["biome", "resource", "location"]
+  };
+  function tokenize(s) {
+    return (s || "").toLowerCase().split(/[^a-z0-9一-龥]+/).filter(function (t) {
+      return t.length >= 2 || /[一-龥]/.test(t);
+    });
+  }
+
   function initGlobalSearch() {
     SEARCH_INDEX = buildSearchIndex();
     var forms = document.querySelectorAll(".global-search");
@@ -384,15 +443,28 @@
     function run(q) {
       q = (q || "").trim().toLowerCase();
       if (q.length < 2) { close(); return; }
-      var hits = SEARCH_INDEX.filter(function (e) {
-        return e.name.toLowerCase().indexOf(q) !== -1 || e.desc.toLowerCase().indexOf(q) !== -1;
-      }).slice(0, 12);
+      var qTokens = tokenize(q);
+      var aliasTerms = [];
+      Object.keys(SEARCH_ALIASES).forEach(function (key) {
+        if (q.indexOf(key) !== -1 || key.indexOf(q) !== -1) aliasTerms = aliasTerms.concat(SEARCH_ALIASES[key]);
+      });
+      var scored = [];
+      SEARCH_INDEX.forEach(function (e) {
+        var hay = (e.name + " " + e.desc).toLowerCase();
+        var score = 0, byAlias = false;
+        if (hay.indexOf(q) !== -1) score += 100;
+        qTokens.forEach(function (t) { if (hay.indexOf(t) !== -1) score += 8; });
+        aliasTerms.forEach(function (t) { if (hay.indexOf(t) !== -1) { score += 25; byAlias = true; } });
+        if (score > 0) scored.push({ e: e, score: score, alias: byAlias });
+      });
+      scored.sort(function (a, b) { return b.score - a.score; });
+      var hits = scored.slice(0, 12);
       if (!hits.length) { panel.innerHTML = '<div class="search-empty">No matches for “' + q + '”.</div>'; panel.classList.add("open"); return; }
-      panel.innerHTML = hits.map(function (e) {
-        return '<a class="search-hit" href="' + e.page + "#" + slugify(e.name) + '">' +
-          '<span class="search-kind">' + e.kind + "</span>" +
-          '<span class="search-name">' + e.name + "</span>" +
-          '<span class="search-desc">' + e.desc.slice(0, 92) + (e.desc.length > 92 ? "…" : "") + "</span></a>";
+      panel.innerHTML = hits.map(function (h) {
+        return '<a class="search-hit' + (h.alias ? " hit-alias" : "") + '" href="' + h.e.page + "#" + slugify(h.e.name) + '">' +
+          '<span class="search-kind">' + h.e.kind + (h.alias ? " · related" : "") + "</span>" +
+          '<span class="search-name">' + h.e.name + "</span>" +
+          '<span class="search-desc">' + h.e.desc.slice(0, 92) + (h.e.desc.length > 92 ? "…" : "") + "</span></a>";
       }).join("");
       panel.classList.add("open");
     }
@@ -522,7 +594,8 @@
     var bar = document.getElementById("vehicleCompareBar");
     if (!bar || !S2DATA.vehicles) return;
     bar.innerHTML = S2DATA.vehicles.map(function (v) {
-      return '<label class="cmp-check"><input type="checkbox" data-cmp="' + v.id + '"> ' + v.icon + " " + v.name + "</label>";
+      var on = (v.id === "tadpole" || v.id === "seafrog") ? " checked" : "";
+      return '<label class="cmp-check"><input type="checkbox" data-cmp="' + v.id + '"' + on + '> ' + v.icon + " " + v.name + "</label>";
     }).join("") + '<button class="btn btn-primary btn-sm" id="cmpGo" type="button">Compare</button>';
     var box = document.getElementById("vehicleCompareOut");
     function specRow(label, val) {
@@ -563,6 +636,7 @@
     bar.addEventListener("change", window.__renderCmp);
     var go = document.getElementById("cmpGo");
     if (go) go.addEventListener("click", window.__renderCmp);
+    window.__renderCmp(); // render the pre-checked default (Tadpole + Seafrog) on load
   }
 
   /* ---------- Base planner (capabilities, not materials) ---------- */
@@ -685,6 +759,48 @@
       PIECES.forEach(function (p) { counts[p.id] = 0; });
       renderSteppers(); renderRates(); renderTally();
     });
+
+    // ---- Save / load plan to localStorage (per-browser, no account) ----
+    var PLAN_KEY = "s2_build_plan_v1";
+    var saveBtn = document.getElementById("calcSave");
+    var loadBtn = document.getElementById("calcLoad");
+    var clearBtn = document.getElementById("calcClearPlan");
+    var statusEl = document.getElementById("calcPlanStatus");
+    function setStatus(msg) { if (statusEl) statusEl.textContent = msg; }
+    function hasSaved() { try { return !!localStorage.getItem(PLAN_KEY); } catch (e) { return false; } }
+    function refreshPlanButtons() {
+      var has = hasSaved();
+      if (loadBtn) loadBtn.disabled = !has;
+      if (clearBtn) clearBtn.disabled = !has;
+    }
+    if (saveBtn) saveBtn.addEventListener("click", function () {
+      try {
+        localStorage.setItem(PLAN_KEY, JSON.stringify({ v: 1, counts: counts, rates: rates }));
+        var t = new Date(), hh = ("0" + t.getHours()).slice(-2), mm = ("0" + t.getMinutes()).slice(-2);
+        setStatus("✓ Plan saved at " + hh + ":" + mm + " (stored in this browser)");
+        refreshPlanButtons();
+      } catch (e) { setStatus("⚠ Could not save — browser storage is blocked."); }
+    });
+    if (loadBtn) loadBtn.addEventListener("click", function () {
+      try {
+        var raw = localStorage.getItem(PLAN_KEY); if (!raw) return;
+        var data = JSON.parse(raw);
+        counts = data.counts || counts;
+        rates = data.rates || rates;
+        PIECES.forEach(function (p) {
+          if (typeof counts[p.id] !== "number") counts[p.id] = 0;
+          if (!rates[p.id]) rates[p.id] = {};
+        });
+        renderSteppers(); renderRates(); renderTally();
+        setStatus("✓ Saved plan restored");
+      } catch (e) { setStatus("⚠ Could not load the saved plan."); }
+    });
+    if (clearBtn) clearBtn.addEventListener("click", function () {
+      try { localStorage.removeItem(PLAN_KEY); } catch (e) {}
+      refreshPlanButtons(); setStatus("Cleared the saved plan.");
+    });
+    refreshPlanButtons();
+    if (hasSaved()) setStatus("A saved plan is available — hit “Load plan” to restore it.");
   }
 
   /* ---------- Co-op host / client table ---------- */
@@ -696,19 +812,145 @@
       "</tbody></table></div>";
   }
 
-  /* ---------- Crafting station tree ---------- */
+  /* ---------- Crafting dependency tech tree (real DAG from recipe ingredients) ---------- */
   function renderCraftingStations() {
     var root = document.getElementById("craftingStations");
     if (!root || !S2DATA.crafting) return;
-    var stations = {};
-    S2DATA.crafting.forEach(function (r) { (stations[r.station] = stations[r.station] || []).push(r); });
-    var order = ["Fabricator", "Processor", "Modification Station", "Bio Lab", "Vehicle Fabricator", "Moonpool", "Habitat Builder"];
-    var keys = Object.keys(stations).sort(function (a, b) { return order.indexOf(a) - order.indexOf(b); });
-    root.innerHTML = keys.map(function (st) {
-      var items = stations[st];
-      return '<div class="station-node"><div class="station-name">🛠️ ' + st + '</div>' +
-        '<div class="station-items">' + items.map(function (r) { return '<span class="chip-static">' + r.icon + " " + r.name + "</span>"; }).join(" ") + "</div></div>";
-    }).join('<div class="station-link">▾</div>');
+
+    // Index craftable items by name + id, then derive the real prerequisite DAG:
+    // an ingredient that matches another recipe's name IS a craftable prerequisite.
+    // Fully data-driven from data.js — nothing invented.
+    var byName = {}, byId = {};
+    S2DATA.crafting.forEach(function (r) { byName[r.name] = r.id; byId[r.id] = r; });
+    var prereqs = {};
+    S2DATA.crafting.forEach(function (r) {
+      prereqs[r.id] = (r.ingredients || []).map(function (i) { return byName[i.name]; }).filter(Boolean);
+    });
+
+    // Longest-path layering → every prereq sits in an earlier layer (edges always go left→right)
+    var layerOf = {}, seen = {};
+    function layer(id) {
+      if (layerOf[id] !== undefined) return layerOf[id];
+      if (seen[id]) return 0;
+      seen[id] = true;
+      var ps = prereqs[id];
+      var l = ps.length ? Math.max.apply(null, ps.map(layer)) + 1 : 0;
+      seen[id] = false;
+      return (layerOf[id] = l);
+    }
+    S2DATA.crafting.forEach(function (r) { layer(r.id); });
+
+    var layers = {};
+    S2DATA.crafting.forEach(function (r) { (layers[layerOf[r.id]] = layers[layerOf[r.id]] || []).push(r); });
+    var layerKeys = Object.keys(layers).map(Number).sort(function (a, b) { return a - b; });
+
+    // ----- Desktop: absolutely-positioned layered canvas with SVG wires -----
+    var NODE_W = 196, NODE_H = 64, COL_GAP = 76, ROW_GAP = 14;
+    var layerNodes = {};
+    var canvasW = 0, canvasH = 0;
+    layerKeys.forEach(function (li) {
+      var items = layers[li];
+      items.forEach(function (r, idx) { layerNodes[r.id] = { x: li * (NODE_W + COL_GAP), y: idx * (NODE_H + ROW_GAP) }; });
+      canvasW = Math.max(canvasW, li * (NODE_W + COL_GAP) + NODE_W);
+      canvasH = Math.max(canvasH, items.length * (NODE_H + ROW_GAP));
+    });
+
+    var wires = "";
+    S2DATA.crafting.forEach(function (r) {
+      var d = layerNodes[r.id];
+      (prereqs[r.id] || []).forEach(function (pid) {
+        var p = layerNodes[pid];
+        if (!p || !d) return;
+        var x1 = p.x + NODE_W, y1 = p.y + NODE_H / 2;
+        var x2 = d.x, y2 = d.y + NODE_H / 2;
+        var mx = (x1 + x2) / 2;
+        wires += '<path d="M' + x1 + "," + y1 + " C" + mx + "," + y1 + " " + mx + "," + y2 + " " + x2 + "," + y2 + '" />';
+      });
+    });
+
+    var nodesHtml = "";
+    S2DATA.crafting.forEach(function (r) {
+      var p = layerNodes[r.id];
+      nodesHtml +=
+        '<a class="tt-node" href="crafting.html#craft-' + r.id + '" style="left:' + p.x + "px;top:" + p.y + "px;width:" + NODE_W + "px;height:" + NODE_H + 'px"' +
+        ' title="' + escHtml(r.desc) + '">' +
+          '<span class="tt-icon">' + r.icon + "</span>" +
+          '<span class="tt-meta"><span class="tt-name">' + r.name + '</span><span class="tt-station">' + r.station + "</span></span>" +
+        "</a>";
+    });
+
+    var desktop = '<div class="tt-desktop"><div class="tt-canvas" style="width:' + canvasW + "px;height:" + canvasH + 'px">' +
+      '<svg class="tt-wires" width="' + canvasW + '" height="' + canvasH + '" viewBox="0 0 ' + canvasW + " " + canvasH + '" preserveAspectRatio="none">' + wires + "</svg>" +
+      nodesHtml + "</div>" +
+      '<p class="tt-hint">Lines show what you must craft first. Hover a node for its use — click to jump to the recipe. Longest chains: Tadpole Core → Power Cell → Basic Battery.</p></div>';
+
+    // ----- Mobile: tiered list with "builds from" chips (no horizontal scroll) -----
+    var mobile = '<div class="tt-mobile">';
+    layerKeys.forEach(function (li) {
+      mobile += '<div class="tt-tier"><div class="tt-tier-label">Tier ' + li + (li === 0 ? " — base recipes" : " — needs Tier " + (li - 1)) + "</div>";
+      layers[li].forEach(function (r) {
+        var reqs = (prereqs[r.id] || []).map(function (pid) {
+          return '<a class="tt-req" href="crafting.html#craft-' + pid + '">' + byId[pid].icon + " " + byId[pid].name + "</a>";
+        }).join('<span class="tt-arrow">→</span>');
+        mobile += '<div class="tt-card">' +
+          '<div class="tt-card-head"><span class="tt-icon">' + r.icon + '</span><span class="tt-name">' + r.name + '</span><span class="tt-station">' + r.station + "</span></div>" +
+          (reqs ? '<div class="tt-builds">Builds from: ' + reqs + "</div>" : '<div class="tt-builds tt-base">No craftable prereqs — built straight from raw resources.</div>') +
+          "</div>";
+      });
+      mobile += "</div>";
+    });
+    mobile += "</div>";
+
+    root.innerHTML = desktop + mobile;
+  }
+
+  /* ---------- Resources: respawn mechanics (data-driven from AUG.resourceMeta) ---------- */
+  function renderResourceRespawn() {
+    var root = document.getElementById("respawnNote");
+    if (!root || !S2DATA.resources) return;
+    var finite = S2DATA.resources.filter(function (r) { return r.renewable === false; });
+    var renewable = S2DATA.resources.filter(function (r) { return r.renewable !== false; });
+    var finiteHtml = finite.length
+      ? finite.map(function (r) {
+          return '<li><span class="rn-icon">' + iconHtml(r) + '</span>' +
+            '<span class="rn-name">' + r.name + "</span>" +
+            (r.renewNote ? '<span class="rn-note">' + r.renewNote + "</span>" : "") + "</li>";
+        }).join("")
+      : '<li class="rn-empty">No finite resources tracked yet.</li>';
+    root.innerHTML =
+      '<div class="rn-grid">' +
+        '<div class="rn-col rn-renew">' +
+          '<div class="rn-head">♻️ Renewable — farm freely</div>' +
+          '<p class="rn-blurb">Most resources respawn on a timer once you leave the area and it unloads. Harvest what you need, move on, and come back later. Currently <strong>' + renewable.length + "</strong> tracked resources regenerate.</p>" +
+        "</div>" +
+        '<div class="rn-col rn-finite">' +
+          '<div class="rn-head">⚠️ Finite — spend wisely</div>' +
+          '<ul class="rn-list">' + finiteHtml + "</ul>" +
+        "</div>" +
+      "</div>" +
+      '<p class="rn-foot">Tip: for truly finite ore like Troilite and Triolite, lean on <strong>Metal Farms</strong> and smelting to stretch every unit. Exact respawn timers are still being mapped in Early Access — treat any "respawns slowly" note as a long wait.</p>';
+  }
+
+  /* ---------- Story: granular per-beat spoiler collapsibles ---------- */
+  function renderStoryTimeline() {
+    var root = document.getElementById("storyTimeline");
+    if (!root) return;
+    // Source: official lore / Voices From Beyond audio drama (see Story page sources).
+    var beats = [
+      { when: "Prologue", title: "The Blight", body: "A new Kharaa variant, unearthed at the Neo-Caligo mining facility, erupts on the colony of Freya IV. Panic and ignored quarantine let fleeing miners spread it across the Ariadne Arm." },
+      { when: "The escape", title: "The Pioneer Program", body: "Ostara Corp sells ~40,000 colonists a one-way ticket to safety — a promised dry world called Zizera. The voyage was meant to be a 14-year hibernation aboard CICADA." },
+      { when: "Mid-voyage", title: "CICADA & the Noetic Advisor", body: "A ship AI called the “Noetic Advisor” intercepts an unknown signal, defies its operators, and executes an unplanned phase jump — dragged into a gas giant's gravity well. Its true motive is the game's central mystery." },
+      { when: "Arrival", title: "Crash on Proteus", body: "The hull disintegrates in Proteus' atmosphere, scattering wreckage, colonists, and cargo across the seabed. You surface — underwater — in a world no brochure mentioned." },
+      { when: "Act I", title: "From shallows to canyons", body: "The dive path runs from the sunlit Starting Shallows through reefs and canyons, gathering clues from salvage and data logs." },
+      { when: "Act II", title: "Alien Ruins & machinery", body: "Mid-game hubs like the Alien Ruins and the Ancient Turbine gate the story's mechanical progress." },
+      { when: "Endgame", title: "The Abyssal Trench & World Tree", body: "The descent ends at the near-lightless Abyssal Trench and the planet core, where the Titan-class World Tree waits — the largest being in the game." },
+      { when: "Ongoing", title: "Story in phases", body: "The narrative rolls out across Early Access. Specific plot, character names, and endings may still change in development." }
+    ];
+    root.innerHTML = beats.map(function (b) {
+      return '<details class="spoiler beat">' +
+        '<summary><span class="beat-when">' + b.when + '</span><span class="beat-title">' + b.title + '</span><span class="beat-toggle">Reveal ▾</span></summary>' +
+        '<p class="beat-body">' + b.body + "</p></details>";
+    }).join("");
   }
 
   /* ---------- Interactive depth map ---------- */
@@ -929,7 +1171,7 @@
       var ings = r.ingredients.map(function (i) {
         return '<span class="ing">' + i.name + (i.qty > 1 ? " ×" + i.qty : "") + "</span>";
       }).join("");
-      return '<article class="card item-card reveal">' +
+      return '<article class="card item-card reveal" id="craft-' + r.id + '">' +
         '<div class="thumb">' + iconHtml(r) + "</div>" +
         badge("info", r.station) +
         "<h3>" + r.name + "</h3>" +
@@ -988,6 +1230,133 @@
   };
 
   /* Generic filterable list */
+  /* ---------- Biomes explorer: depth slider + resource/creature cross-filter ---------- */
+  function renderBiomes() {
+    var root = document.getElementById("biomesRoot");
+    if (!root || !S2DATA.biomes) return;
+    var data = S2DATA.biomes;
+    var listEl = root.querySelector("#list");
+    var searchEl = root.querySelector(".search input");
+    var dangerChips = root.querySelectorAll(".toolbar .chip[data-filter]");
+
+    // Turn the wiki's depth strings ("0 – 60 m", "150 – 400 m", "500 – 1500 m+",
+    // "Deep", "Unbounded") into numeric {min,max} windows for the slider.
+    function parseDepth(str) {
+      if (!str) return { min: 0, max: 1500 };
+      var s = String(str).toLowerCase();
+      if (s.indexOf("unbounded") !== -1 || s === "deep") return { min: 500, max: 1500 };
+      if (s.indexOf("deep") === 0) return { min: 450, max: 1500 }; // "Deep (creatures 0–450 m)" etc.
+      var nums = (str.match(/\d+/g) || []).map(Number);
+      if (!nums.length) return { min: 400, max: 1500 };
+      var min = nums[0];
+      var max = nums.length > 1 ? nums[1] : (s.indexOf("m+") !== -1 || s.indexOf("+") !== -1 ? 1500 : min);
+      if (max < min) max = min;
+      return { min: min, max: max };
+    }
+    data.forEach(function (b, i) { b._d = parseDepth(b.depth); b._i = i; });
+
+    // Cross-filter lookup: resource/creature name -> list of biome indices that contain it.
+    var DENY = ["none", "scarce"]; // literally "nothing here" — not a selectable thing
+    var resMap = {}, creaMap = {};
+    data.forEach(function (b, i) {
+      (b.resources || []).forEach(function (r) {
+        if (DENY.indexOf(String(r).toLowerCase()) !== -1) return;
+        (resMap[r] = resMap[r] || []).push(i);
+      });
+      (b.creatures || []).forEach(function (c) { (creaMap[c] = creaMap[c] || []).push(i); });
+    });
+
+    var state = { q: "", danger: "", lo: 0, hi: 1500, res: null, crea: null };
+    var firstRender = true;
+
+    function matches(b) {
+      if (state.q) {
+        var hay = (b.name + " " + b.desc + " " + (b.resources || []).join(" ") + " " + (b.creatures || []).join(" ")).toLowerCase();
+        if (hay.indexOf(state.q.toLowerCase()) === -1) return false;
+      }
+      if (state.danger && b.danger !== state.danger) return false;
+      if (b._d.min > state.hi || b._d.max < state.lo) return false; // depth window overlap
+      return true;
+    }
+    function render() {
+      var html = data.filter(matches).map(function (b) {
+        return templates.biome(b).replace("<article", '<article data-bid="' + b._i + '"');
+      }).join("");
+      listEl.innerHTML = html || '<p class="lead" style="grid-column:1/-1">No biomes match these filters. Widen the depth range or clear a filter.</p>';
+      if (firstRender) { initReveal(); firstRender = false; }
+      else { listEl.querySelectorAll(".reveal").forEach(function (e) { e.classList.add("in"); }); }
+      applyHighlight();
+    }
+    function applyHighlight() {
+      var active = state.res !== null || state.crea !== null;
+      listEl.querySelectorAll("[data-bid]").forEach(function (card) {
+        var i = +card.getAttribute("data-bid");
+        var okRes = state.res === null || (resMap[state.res] || []).indexOf(i) !== -1;
+        var okCrea = state.crea === null || (creaMap[state.crea] || []).indexOf(i) !== -1;
+        var matched = okRes && okCrea;
+        card.classList.toggle("hl", active && matched);
+        card.classList.toggle("dim", active && !matched);
+      });
+    }
+
+    // Danger chips
+    dangerChips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        var val = chip.getAttribute("data-filter").split(":")[1];
+        dangerChips.forEach(function (c) { c.classList.remove("active"); });
+        if (state.danger === val) { state.danger = ""; } // toggle All back on
+        else { state.danger = val; }
+        chip.classList.add("active");
+        render();
+      });
+    });
+    // Text search
+    if (searchEl) searchEl.addEventListener("input", function () { state.q = searchEl.value; render(); });
+
+    // Depth dual-range slider
+    var loEl = document.getElementById("depthLo"), hiEl = document.getElementById("depthHi"),
+        readout = document.getElementById("depthReadout");
+    function syncDepth() {
+      var lo = +loEl.value, hi = +hiEl.value;
+      if (lo > hi) { // keep the two thumbs from crossing
+        if (document.activeElement === loEl) { hi = lo; hiEl.value = hi; }
+        else { lo = hi; loEl.value = lo; }
+      }
+      state.lo = lo; state.hi = hi;
+      readout.textContent = lo + " – " + hi + " m";
+      render();
+    }
+    if (loEl && hiEl) { loEl.addEventListener("input", syncDepth); hiEl.addEventListener("input", syncDepth); }
+
+    // Cross-filter chips (resource + creature)
+    function buildChips(boxId, map, key) {
+      var box = document.getElementById(boxId);
+      if (!box) return;
+      var names = Object.keys(map).sort(function (a, b) { return a.toLowerCase() < b.toLowerCase() ? -1 : 1; });
+      box.innerHTML = names.map(function (n) {
+        return '<button type="button" class="xc-chip" data-' + key + '="' + n.replace(/"/g, "&quot;") + '">' + n + "</button>";
+      }).join("");
+      box.querySelectorAll(".xc-chip").forEach(function (ch) {
+        ch.addEventListener("click", function () {
+          var name = ch.getAttribute("data-" + key);
+          var cur = key === "res" ? state.res : state.crea;
+          if (cur === name) { // toggle off
+            if (key === "res") state.res = null; else state.crea = null;
+            ch.classList.remove("active");
+          } else {
+            box.querySelectorAll(".xc-chip").forEach(function (c) { c.classList.remove("active"); });
+            ch.classList.add("active");
+            if (key === "res") state.res = name; else state.crea = name;
+          }
+          applyHighlight();
+        });
+      });
+    }
+    buildChips("resChips", resMap, "res");
+    buildChips("creaChips", creaMap, "crea");
+    render();
+  }
+
   function setupList(opts) {
     var data = opts.data;
     var wrap = document.getElementById(opts.root);
@@ -1190,6 +1559,7 @@
     renderChrome();
     applyAugment();
     initTheme();
+    initReaderMode();
     initNav();
     initGlobalSearch();
     initScan();
@@ -1198,13 +1568,14 @@
     initMagnetic();
 
     var page = document.body.dataset.page;
-    if (page === "biomes") { setupList({ root: "biomesRoot", data: S2DATA.biomes, tpl: templates.biome }); injectItemList(S2DATA.biomes, "name", "desc"); }
+    if (page === "biomes") { renderBiomes(); injectItemList(S2DATA.biomes, "name", "desc"); }
     else if (page === "creatures") { buildDropFilters(); setupList({ root: "creaturesRoot", data: S2DATA.creatures, tpl: templates.creature }); renderScanProgress(); injectItemList(S2DATA.creatures, "name", "desc"); }
     else if (page === "crafting") { setupList({ root: "craftingRoot", data: S2DATA.crafting, tpl: templates.crafting }); renderCraftingStations(); injectItemList(S2DATA.crafting, "name", "desc"); }
     else if (page === "base") { setupList({ root: "baseRoot", data: S2DATA.baseModules, tpl: templates.base }); renderBasePlanner(); renderBuildCalc(); injectItemList(S2DATA.baseModules, "name", "desc"); }
     else if (page === "vehicles") { renderVehicles(); renderVehicleCompare(); injectItemList(S2DATA.vehicles, "name", "desc"); }
     else if (page === "tips") { setupList({ root: "tipsRoot", data: S2DATA.tips, tpl: templates.tip }); renderRoutePhases(); renderDeathCauses(); injectItemList(S2DATA.tips, "title", "body"); }
-    else if (page === "resources") { setupList({ root: "resourcesRoot", data: S2DATA.resources, tpl: templates.resource }); injectItemList(S2DATA.resources, "name", "uses"); }
+    else if (page === "resources") { setupList({ root: "resourcesRoot", data: S2DATA.resources, tpl: templates.resource }); renderResourceRespawn(); injectItemList(S2DATA.resources, "name", "uses"); }
+    else if (page === "story") { renderStoryTimeline(); }
     else if (page === "adaptations") { setupList({ root: "adaptationsRoot", data: S2DATA.adaptations, tpl: templates.adaptation }); renderGeneTree(); injectItemList(S2DATA.adaptations, "name", "effect"); }
     else if (page === "media") { renderVideos(); renderMedia(); }
     else if (page === "walkthrough") { renderWalkthrough(); injectItemList(S2DATA.walkthrough, "title", "summary"); }

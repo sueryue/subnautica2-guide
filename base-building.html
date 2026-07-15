@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=17" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20" />
   <link rel="canonical" href="https://sueryue.github.io/subnautica2-guide/base-building.html" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#06121f" />
@@ -79,6 +79,15 @@
           <p class="lead">Enter how many of each piece you plan, and we tally the raw materials. Rates are editable — fill in costs from your scanned blueprints.</p>
         </div>
         <div class="calc-banner">⚠ <strong>Subnautica 2 builds piece-by-piece</strong> — there are no fixed prefab room recipes and exact material costs aren't published in Early Access. The Moonpool's <strong>5 Titanium</strong> is confirmed in-game. Everything else starts blank; load the <em>SN1 reference</em> preset as a planning baseline, or type your own scanned costs.</div>
+        <details class="calc-hint">
+          <summary>SN1 → SN2 resource conversion hints</summary>
+          <p>Basic ores map 1:1 across both games, so the <em>Load SN1 reference</em> preset is a safe planning baseline for them:</p>
+          <ul>
+            <li><strong>Titanium, Lead, Quartz, Glass, Copper, Lithium</strong> — same name &amp; role in SN1 and SN2.</li>
+            <li><strong>Lubricant &amp; Enameled Glass</strong> — building consumables present in both titles, but per-piece costs differ; treat SN1 figures as a rough estimate only.</li>
+          </ul>
+          <p class="note-tbd">SN2 piece-by-piece building has no published exact costs — always confirm against your own scanned blueprints.</p>
+        </details>
         <div class="calc-grid">
           <div class="calc-steppers" id="calcSteppers"></div>
           <div class="calc-rates">
@@ -87,11 +96,15 @@
               <span class="calc-rates-actions">
                 <button class="btn btn-sm" id="calcSn1" type="button">Load SN1 reference</button>
                 <button class="btn btn-sm btn-ghost" id="calcReset" type="button">Reset</button>
+                <button class="btn btn-sm" id="calcSave" type="button">Save plan</button>
+                <button class="btn btn-sm btn-ghost" id="calcLoad" type="button" disabled>Load plan</button>
+                <button class="btn btn-sm btn-ghost" id="calcClearPlan" type="button" disabled>Clear saved</button>
               </span>
             </div>
             <div class="calc-rates-body table-wrap" id="calcRates"></div>
           </div>
         </div>
+        <p class="calc-status" id="calcPlanStatus" aria-live="polite"></p>
         <div class="calc-tally" id="calcTally"></div>
       </div>
 
@@ -131,6 +144,6 @@
   <footer class="footer" id="siteFooter"></footer>
   <script src="assets/js/data.js?v=12"></script>
   <script src="assets/js/icons.js?v=13"></script>
-  <script src="assets/js/main.js?v=19"></script>
+  <script src="assets/js/main.js?v=22"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=17" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20" />
   <link rel="canonical" href="https://sueryue.github.io/subnautica2-guide/biomes.html" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#06121f" />
@@ -60,7 +60,7 @@
       <div class="section-head">
         <span class="eyebrow">Biomes</span>
         <h2>Chart the ocean floor</h2>
-        <p class="lead">From sunlit shallows to molten lava lakes — filter by danger and search to find the right biome for your next run.</p>
+        <p class="lead">From sunlit shallows to molten lava lakes — filter by danger or depth range, then tap a resource or creature to spotlight every biome that holds it.</p>
       </div>
       <div id="biomesRoot">
         <div class="toolbar">
@@ -68,11 +68,37 @@
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--text-dim)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
             <input type="text" placeholder="Search biomes, resources, creatures…" />
           </div>
-          <button class="chip active" data-filter="danger:">All</button>
-          <button class="chip" data-filter="danger:safe">Safe</button>
-          <button class="chip" data-filter="danger:caution">Caution</button>
-          <button class="chip" data-filter="danger:danger">Danger</button>
+          <div class="filter-group">
+            <span class="chip-label">Danger</span>
+            <button class="chip active" data-filter="danger:">All</button>
+            <button class="chip" data-filter="danger:safe">Safe</button>
+            <button class="chip" data-filter="danger:caution">Caution</button>
+            <button class="chip" data-filter="danger:danger">Danger</button>
+          </div>
         </div>
+
+        <div class="explorer-controls">
+          <div class="depth-filter" id="depthFilter">
+            <div class="df-head">
+              <span class="xc-label">Depth range</span>
+              <span class="df-readout" id="depthReadout">0 – 1500 m</span>
+            </div>
+            <div class="df-sliders">
+              <label class="df-lbl">Min<input type="range" id="depthLo" min="0" max="1500" step="10" value="0" aria-label="Minimum depth in metres" /></label>
+              <label class="df-lbl">Max<input type="range" id="depthHi" min="0" max="1500" step="10" value="1500" aria-label="Maximum depth in metres" /></label>
+            </div>
+          </div>
+
+          <div class="xc-group">
+            <span class="xc-label">Contains resource → highlights matching biomes</span>
+            <div class="xc-chips" id="resChips"></div>
+          </div>
+          <div class="xc-group">
+            <span class="xc-label">Has creature → highlights matching biomes</span>
+            <div class="xc-chips" id="creaChips"></div>
+          </div>
+        </div>
+
         <div class="cards" id="list"></div>
       </div>
     </div>
@@ -82,6 +108,6 @@
   <footer class="footer" id="siteFooter"></footer>
   <script src="assets/js/data.js?v=12"></script>
   <script src="assets/js/icons.js?v=13"></script>
-  <script src="assets/js/main.js?v=19"></script>
+  <script src="assets/js/main.js?v=22"></script>
 </body>
 </html>
