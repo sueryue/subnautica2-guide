@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=13" />
+  <link rel="stylesheet" href="assets/css/style.css?v=14" />
   <link rel="canonical" href="https://sueryue.github.io/subnautica2-guide/creatures.html" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#06121f" />
@@ -60,7 +60,16 @@
       <div class="section-head">
         <span class="eyebrow">Creature Encyclopedia</span>
         <h2>Know what's in the dark</h2>
-        <p class="lead">Filter by behaviour — passive, aggressive, or leviathan — and learn where each creature lives before you meet it.</p>
+        <p class="lead">Filter by behaviour — passive, aggressive, or leviathan — and learn where each creature lives before you meet it. Mark creatures as scanned to build your PDA log.</p>
+      </div>
+      <div id="scanProgress" class="scan-progress"></div>
+      <div class="threat-legend">
+        <span class="legend-title">Threat level</span>
+        <span class="badge safe">Safe · harmless</span>
+        <span class="badge caution">Caution · watchful</span>
+        <span class="badge danger">Danger · hostile</span>
+        <span class="badge leviathan">Leviathan · apex</span>
+        <span class="badge info">Parasite · manipulative</span>
       </div>
       <div id="creaturesRoot">
         <div class="toolbar">
@@ -86,6 +95,6 @@
   <footer class="footer" id="siteFooter"></footer>
   <script src="assets/js/data.js?v=11"></script>
   <script src="assets/js/icons.js?v=13"></script>
-  <script src="assets/js/main.js?v=13"></script>
+  <script src="assets/js/main.js?v=15"></script>
 </body>
 </html>
