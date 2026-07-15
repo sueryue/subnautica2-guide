@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=15" />
+  <link rel="stylesheet" href="assets/css/style.css?v=16" />
   <link rel="canonical" href="https://sueryue.github.io/subnautica2-guide/map.html" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#06121f" />
@@ -60,18 +60,19 @@
       <div class="section-head">
         <span class="eyebrow">Interactive Depth Map</span>
         <h2>Descend Proteus</h2>
-        <p class="lead">Every biome plotted by depth — no fake coordinates, just the real vertical descent. Toggle layers to focus on resources, creatures, or danger.</p>
+        <p class="lead">A layered, depth-first map of planet Proteus — every node placed by its real depth, never fake coordinates. Switch layers to scout resources, track creature hotspots, or locate landmarks, and read the depth ruler (left) to plan your dive.</p>
       </div>
 
       <div class="map-controls">
         <div class="map-layers" id="mapLayers">
-          <button class="map-layer active" data-layer="all">All</button>
+          <button class="map-layer active" data-layer="all">🌐 All</button>
           <button class="map-layer" data-layer="resource">💎 Resources</button>
           <button class="map-layer" data-layer="creature">🐟 Creatures</button>
-          <button class="map-layer" data-layer="danger">⚠ Dangerous</button>
+          <button class="map-layer" data-layer="landmark">🧭 Landmarks</button>
         </div>
-        <p class="map-hint">Nodes are positioned by representative depth. Click any biome to open its guide page.</p>
+        <p class="map-hint">Nodes are positioned by representative depth. Hover any node for detail; click to open its guide page.</p>
       </div>
+      <p class="map-legend" id="mapLegend"></p>
 
       <div class="map-wrap">
         <div class="map-ruler" id="mapRuler"></div>
@@ -84,6 +85,6 @@
   <footer class="footer" id="siteFooter"></footer>
   <script src="assets/js/data.js?v=11"></script>
   <script src="assets/js/icons.js?v=14"></script>
-  <script src="assets/js/main.js?v=16"></script>
+  <script src="assets/js/main.js?v=17"></script>
 </body>
 </html>
