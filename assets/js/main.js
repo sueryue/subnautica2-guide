@@ -967,7 +967,6 @@
     if (!col || !S2DATA.biomes) return;
     var creatureByName = {};
     (S2DATA.creatures || []).forEach(function (c) { creatureByName[c.name] = c; });
-    var MAXD = 1700;
     var ZONES = [
       { name: "Surface", s: 0, e: 50 },
       { name: "Shallows", s: 50, e: 150 },
@@ -975,22 +974,29 @@
       { name: "Deep", s: 400, e: 800 },
       { name: "Abyss", s: 800, e: 1600 }
     ];
+    function zoneOf(d) {
+      for (var i = 0; i < ZONES.length; i++) {
+        if (i === ZONES.length - 1 || d < ZONES[i].e) return i;
+      }
+      return 0;
+    }
 
-    function biomeNodes() {
-      return S2DATA.biomes.slice().sort(function (a, b) { return repDepth(a.depth) - repDepth(b.depth); }).map(function (b) {
+    function biomeItems() {
+      return S2DATA.biomes.map(function (b) {
+        var d = repDepth(b.depth);
         var dm = ({ safe: "safe", caution: "caution", danger: "danger", extreme: "leviathan" })[b.danger] || "info";
-        var tags = "";
-        if (b.creatures && b.creatures.length) tags += '<span class="map-tag">🐟 ' + b.creatures.length + "</span>";
-        if (b.resources && b.resources.length && b.resources[0] !== "None") tags += '<span class="map-tag">💎 ' + b.resources.length + "</span>";
-        return { d: repDepth(b.depth), html:
-          '<a class="map-node ' + dm + '" href="biomes.html#' + b.id + '" style="--d:' + repDepth(b.depth) + '">' +
-          '<span class="map-depth">' + b.depth + "</span>" +
-          '<span class="map-name">' + b.icon + " " + b.name + "</span>" +
-          '<span class="map-tags">' + tags + "</span></a>" };
+        var tags = [];
+        if (b.creatures && b.creatures.length) tags.push(b.creatures.length + " species");
+        if (b.resources && b.resources.length && b.resources[0] !== "None") tags.push(b.resources.length + " resources");
+        return { d: d, z: zoneOf(d), html:
+          '<a class="map-chip ' + dm + '" href="biomes.html#' + b.id + '" data-tip="' + escHtml(b.name + " — " + b.depth + (tags.length ? " · " + tags.join(", ") : "")) + '">' +
+          '<span class="mc-dot"></span>' +
+          '<span class="mc-body"><span class="mc-name">' + b.name + '</span>' +
+          '<span class="mc-meta">' + b.depth + (tags.length ? " · " + tags.join(" · ") : "") + '</span></span></a>' };
       });
     }
 
-    function resourceNodes() {
+    function resourceItems() {
       var map = {};
       S2DATA.biomes.forEach(function (b) {
         (b.resources || []).forEach(function (r) {
@@ -1003,14 +1009,15 @@
       });
       return Object.keys(map).map(function (k) {
         var r = map[k];
-        return { d: r.d, html:
-          '<div class="map-node res pin" data-tip="' + escHtml(r.name + " — found in " + r.biomes.length + " biomes: " + r.biomes.join(", ")) + '" style="--d:' + r.d + '">' +
-          '<span class="map-depth">~' + r.d + "m</span>" +
-          '<span class="map-name">💎 ' + escHtml(r.name) + "</span></div>" };
-      }).sort(function (a, b) { return a.d - b.d; });
+        return { d: r.d, z: zoneOf(r.d), html:
+          '<div class="map-chip res" data-tip="' + escHtml(r.name + " — found in " + r.biomes.length + " biomes: " + r.biomes.join(", ")) + '">' +
+          '<span class="mc-dot"></span>' +
+          '<span class="mc-body"><span class="mc-name">' + escHtml(r.name) + '</span>' +
+          '<span class="mc-meta">~' + r.d + 'm · ' + r.biomes.length + ' biomes</span></span></div>' };
+      });
     }
 
-    function creatureNodes() {
+    function creatureItems() {
       var map = {};
       S2DATA.biomes.forEach(function (b) {
         (b.creatures || []).forEach(function (cn) {
@@ -1023,73 +1030,63 @@
       });
       return Object.keys(map).map(function (cn) {
         var c = map[cn]; var tm = tierMeta(c.tier || "gentle");
-        return { d: c.d, html:
-          '<a class="map-node ' + tm.cls + ' pin" href="' + (c.id ? ("creatures.html#" + c.id) : "creatures.html") + '" data-tip="' + escHtml(c.name + " — " + tm.label + " · " + c.biomes.join(", ")) + '" style="--d:' + c.d + '">' +
-          '<span class="map-depth">~' + c.d + "m</span>" +
-          '<span class="map-name">' + c.icon + " " + escHtml(cn) + "</span></a>" };
-      }).sort(function (a, b) { return a.d - b.d; });
+        return { d: c.d, z: zoneOf(c.d), html:
+          '<a class="map-chip ' + tm.cls + '" href="' + (c.id ? ("creatures.html#" + c.id) : "creatures.html") + '" data-tip="' + escHtml(c.name + " — " + tm.label + " · " + c.biomes.join(", ")) + '">' +
+          '<span class="mc-dot"></span>' +
+          '<span class="mc-body"><span class="mc-name">' + escHtml(cn) + '</span>' +
+          '<span class="mc-meta">' + tm.label + " · " + c.biomes.length + ' biomes</span></span></a>' };
+      });
     }
 
-    function landmarkNodes() {
+    function landmarkItems() {
       var ids = ["cicada-wreck", "old-habitat", "alien-ruins", "ancient-turbine", "axum-spire", "metal-farms", "camp-one-shallows", "infested-caves", "the-cliff", "the-void"];
-      var nodes = [{ name: "Lifepod (your start)", icon: "🛟", d: 0, sub: "Surface · 0 m", href: "tips.html" }];
+      var items = [{ name: "Lifepod (your start)", icon: "🛟", d: 0, sub: "Surface · 0 m", href: "tips.html" }];
       S2DATA.biomes.filter(function (b) { return ids.indexOf(b.id) !== -1; }).forEach(function (b) {
-        nodes.push({ name: b.name, icon: b.icon, d: repDepth(b.depth), sub: b.depth, href: "biomes.html#" + b.id });
+        items.push({ name: b.name, icon: b.icon, d: repDepth(b.depth), sub: b.depth, href: "biomes.html#" + b.id });
       });
-      return nodes.sort(function (a, b) { return a.d - b.d; }).map(function (l) {
-        return { d: l.d, html:
-          '<a class="map-node landmark pin" href="' + l.href + '" style="--d:' + l.d + '">' +
-          '<span class="map-depth">' + l.sub + "</span>" +
-          '<span class="map-name">' + l.icon + " " + escHtml(l.name) + "</span></a>" };
+      return items.map(function (l) {
+        return { d: l.d, z: zoneOf(l.d), html:
+          '<a class="map-chip landmark" href="' + l.href + '" data-tip="' + escHtml(l.name + " — " + l.sub) + '">' +
+          '<span class="mc-dot"></span>' +
+          '<span class="mc-body"><span class="mc-name">' + escHtml(l.name) + '</span>' +
+          '<span class="mc-meta">' + l.sub + '</span></span></a>' };
       });
     }
 
-    var zonesHtml = ZONES.map(function (z) {
-      return '<div class="map-zone" style="top:' + (z.s / MAXD * 100) + '%;height:' + ((z.e - z.s) / MAXD * 100) + '%"><span class="map-zone-label">' + z.name + "</span></div>";
-    }).join("");
-
-    function layout(nodes) {
-      var BAND = 70, buckets = {};
-      nodes.forEach(function (n) { var b = Math.round(n.d / BAND); (buckets[b] = buckets[b] || []).push(n); });
-      Object.keys(buckets).forEach(function (b) {
-        var arr = buckets[b];
-        arr.forEach(function (n, i) {
-          var frac = (i + 0.5) / arr.length;
-          var left = (12 + frac * 76).toFixed(2);
-          n.html = n.html.replace('style="--d:', 'style="left:' + left + '%;--d:');
-        });
-      });
-      return nodes.map(function (n) { return n.html; }).join("");
+    function itemsFor(layer) {
+      if (layer === "resource") return resourceItems();
+      if (layer === "creature") return creatureItems();
+      if (layer === "landmark") return landmarkItems();
+      return biomeItems();
     }
 
     function updateLegend(layer) {
       var el = document.getElementById("mapLegend");
       if (!el) return;
       el.textContent = ({
-        all: "All biomes plotted by depth — the full vertical descent of Proteus.",
-        resource: "Resource layer — each mineral is positioned at its shallowest known depth. Hover a node to see every biome it appears in.",
-        creature: "Creature layer — each species is positioned by depth and coloured by threat tier. Hover to see its biomes.",
+        all: "All biomes grouped by depth zone — the full vertical descent of Proteus, from sunlit shallows to the abyssal core.",
+        resource: "Resource layer — each mineral grouped by its shallowest known depth. Hover a chip to see every biome it appears in.",
+        creature: "Creature layer — each species grouped by depth and coloured by threat tier. Hover to see its biomes.",
         landmark: "Landmark layer — your Lifepod and the ruins, wrecks and structures scattered across Proteus."
       })[layer] || "";
     }
 
     function renderLayer(layer) {
-      var html;
-      if (layer === "resource") html = layout(resourceNodes());
-      else if (layer === "creature") html = layout(creatureNodes());
-      else if (layer === "landmark") html = layout(landmarkNodes());
-      else html = biomeNodes().map(function (n) { return n.html; }).join("");
-      col.innerHTML = zonesHtml + html;
+      var items = itemsFor(layer);
+      var groups = ZONES.map(function () { return []; });
+      items.forEach(function (it) { groups[it.z].push(it); });
+      var html = ZONES.map(function (z, zi) {
+        var g = groups[zi].slice().sort(function (a, b) { return a.d - b.d; });
+        if (!g.length) return "";
+        return '<section class="map-zone-sec z-' + z.name.toLowerCase() + '">' +
+          '<div class="zone-aside"><span class="zone-name">' + z.name + '</span><span class="zone-depth">' + z.s + "–" + z.e + ' m</span></div>' +
+          '<div class="zone-nodes">' + g.map(function (it) { return it.html; }).join("") + '</div>' +
+          '</section>';
+      }).join("");
+      col.innerHTML = html || '<p class="map-empty">No nodes for this layer.</p>';
       updateLegend(layer);
     }
 
-    var ruler = document.getElementById("mapRuler");
-    if (ruler) {
-      var marks = [0, 100, 200, 300, 500, 800, 1200, 1600];
-      ruler.innerHTML = marks.map(function (m) {
-        return '<span class="ruler-mark" style="bottom:' + (m / MAXD * 100) + '%">' + m + (m === 1600 ? "m+" : "m") + "</span>";
-      }).join("");
-    }
     var bar = document.getElementById("mapLayers");
     if (bar) {
       bar.addEventListener("click", function (e) {
