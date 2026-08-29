@@ -1174,6 +1174,7 @@
         "<h3>" + r.name + "</h3>" +
         '<p class="desc">' + r.desc + "</p>" +
         '<div class="ings">' + ings + "</div>" +
+        /* EXP:scan-loc */ (r.scan ? '<p class="scan-loc">📍 <strong>Scan:</strong> ' + escHtml(r.scan) + "</p>" : "") +
         (r.source ? (r.source.indexOf("http") === 0
           ? '<a class="src-link" href="' + r.source + '" target="_blank" rel="noopener">✓ Verified source ↗</a>'
           : '<span class="src-note">Source: ' + r.source + '</span>') : "") +
