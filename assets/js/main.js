@@ -29,8 +29,7 @@
     { label: "Guides", items: [
       { page: "walkthrough", href: "walkthrough.html", label: "Walkthrough" },
       { page: "tips", href: "tips.html", label: "Beginner's Guide" },
-      { page: "media", href: "media.html", label: "Media" },
-      { page: "easter-eggs", href: "easter-eggs.html", label: "Easter Eggs" }
+      { page: "media", href: "media.html", label: "Media" }
     ]},
     { label: "Map", items: [
       { page: "map", href: "map.html", label: "Depth Map" }
@@ -114,7 +113,7 @@
           footerCol("Explore", ["biomes.html|Biomes", "creatures.html|Creatures", "resources.html|Resources", "map.html|Depth Map"]) +
           footerCol("Build", ["crafting.html|Crafting", "vehicles.html|Vehicles", "base-building.html|Base Building"]) +
           footerCol("Progress", ["story.html|Story", "adaptations.html|Adaptations", "multiplayer.html|Co-op"]) +
-          footerCol("Guides", ["walkthrough.html|Walkthrough", "tips.html|Beginner's Guide", "media.html|Media", "easter-eggs.html|Easter Eggs", "about.html|About &amp; FAQ"]) +
+          footerCol("Guides", ["walkthrough.html|Walkthrough", "tips.html|Beginner's Guide", "media.html|Media", "about.html|About &amp; FAQ"]) +
           footerCol("Community", ["#|Discord", "#|Contribute", "#|Report data"]) +
           '<div class="copy"><span>© ' + yr + ' Subnautica 2 Guide. Fan project.</span>' +
           '<span>Data based on the Subnautica universe · TBD items pending official release.</span></div>' +
