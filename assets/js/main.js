@@ -1143,6 +1143,10 @@
         '<dl class="spec"><dt>Depth</dt><dd>' + b.depth + "</dd>" +
         "<dt>Resources</dt><dd>" + b.resources.join(", ") + "</dd>" +
         (b.creatures && b.creatures.length ? "<dt>Creatures</dt><dd>" + b.creatures.join(", ") + "</dd>" : "") +
+        /* WEB:biome-enrich */
+        (b.blueprints && b.blueprints.length ? "<dt>Blueprints</dt><dd>" + b.blueprints.join(", ") + "</dd>" : "") +
+        (b.poi && b.poi.length ? "<dt>Points of interest</dt><dd>" + b.poi.join(", ") + "</dd>" : "") +
+        (b.ignEnemies && b.ignEnemies.length ? "<dt>Notable threats</dt><dd>" + b.ignEnemies.join(", ") + "</dd>" : "") +
         "</dl>" + (b.tbd ? tbd() : "") +
         (b.advice ? '<p class="biome-advice">💡 ' + b.advice + "</p>" : "") +
         "</article>";
@@ -1160,6 +1164,9 @@
         '<dl class="spec"><dt>Tier</dt><dd>' + m.label + "</dd>" +
         "<dt>Habitat</dt><dd>" + c.biome + "</dd></dl>" +
         drops +
+        /* WEB:creature-enrich */
+        (c.ignBehavior ? '<p class="cre-meta">📍 <strong>Behavior:</strong> ' + escHtml(c.ignBehavior) + (c.ignLocation ? ' <em>(' + escHtml(c.ignLocation) + ')</em>' : '') + '</p>' : "") +
+        (c.edible ? '<p class="cre-meta">🍽️ <strong>Edible:</strong> ' + (c.foodItems && c.foodItems.length ? c.foodItems.map(escHtml).join(", ") : "Yes") + '</p>' : "") +
         '<button class="scan-btn' + (isScanned(c.id) ? " on" : "") + '" data-id="' + c.id + '" type="button">' +
           (isScanned(c.id) ? "✓ Scanned" : "Mark scanned") + "</button>" +
         (c.tbd ? tbd() : "") + "</article>";

@@ -913,7 +913,9 @@ h3 { font-size: 1.25rem; }
 .ref-table thead th { color: var(--accent); font-family: var(--font-display); }
 .ref-list { margin: 0; padding: 0 1.2rem 1.1rem 2.4rem; columns: 2; column-gap: 2rem; }
 .ref-list li { padding: .25rem 0; color: var(--text-dim); break-inside: avoid; }
-.ad-slot { min-height: 100px; margin: 2rem auto; max-width: 720px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--border-strong); border-radius: 12px; background: var(--surface-strong); color: var(--text-dim); font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; }
-.ad-slot span { opacity: .6; }
 @media (max-width: 600px) { .ref-list { columns: 1; } }
 
+
+/* WEB:enrich-patch — sourced-content meta lines on creature/biome cards */
+.cre-meta { font-size: .82rem; opacity: .82; margin: .4rem 0 0; line-height: 1.35; }
+.cre-meta em { opacity: .8; font-style: italic; }
