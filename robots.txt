@@ -11,4 +11,4 @@ User-agent: Bytespider
 User-agent: Applebot
 Allow: /
 
-Sitemap: https://sueryue.github.io/subnautica2-guide/sitemap.xml
+Sitemap: https://subnautica2-guide.com/sitemap.xml
