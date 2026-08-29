@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /dev/
 
 # AI / generative-engine crawlers (ChatGPT, Claude, Perplexity, Google-Extended, etc.)
 User-agent: GPTBot
